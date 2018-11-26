@@ -23,4 +23,5 @@ class RedFlag:
             }
         redflags.append(redflag)
 
-    
+    def get_redflags(self):
+        return redflags
