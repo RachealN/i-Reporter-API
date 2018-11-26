@@ -30,4 +30,10 @@ class RedFlag:
                 return redflag
 
 
+    def patch_redflag_location(self,id,location):
+        for redflag in redflags:
+            if redflag.get("id") == id:
+                redflag.update({"location":location})
+                return redflag
+
     
