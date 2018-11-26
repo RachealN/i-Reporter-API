@@ -98,6 +98,21 @@ def edit_redflag_comment(id):
     }
     return jsonify(response)
 
+@redflag_blueprint.route('/red-flags/<int:id>',methods = ['DELETE'])
+def delete_redflag(id):
+
+    data_list = []
+    data_list.append(redflag.delete_redflag(id))
+    
+    response = {
+        "status":200,
+        "data": data_list,
+        "message":"Redflag created succesfully"
+
+    }
+    return jsonify(response)
+
+
 
 
 
