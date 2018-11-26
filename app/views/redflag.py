@@ -48,6 +48,20 @@ def get_redflag():
 
     return jsonify(response)
 
+@redflag_blueprint.route('/red-flags/<int:id>',methods = ['GET'])
+def get_single_redflag_by_id(id):
+    data_list = []
+    data_list.append(redflag.get_single_redflag_by_id(id))
+    
+    response = {
+        "status":200,
+        "data": data_list,
+        "message":"Redflag created succesfully"
+
+    }
+    
+    return jsonify(response)
+
 
 
 
