@@ -80,12 +80,23 @@ def edit_redflag_location(id):
     }
     return jsonify(response)
 
+@redflag_blueprint.route('/red-flags/<int:id>/comment',methods = ['PATCH'])
+def edit_redflag_comment(id):
+    request_data = request.get_json()
+    comment = request_data.get("comment")
 
+    redflag.patch_redflag_comment(id,comment)
 
+    data_list = []
+    data_list.append(redflag.get_single_redflag_by_id(id))
+    
+    response = {
+        "status":200,
+        "data": data_list,
+        "message":"Redflag created succesfully"
 
-
-
-
+    }
+    return jsonify(response)
 
 
 

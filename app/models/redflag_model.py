@@ -36,4 +36,9 @@ class RedFlag:
                 redflag.update({"location":location})
                 return redflag
 
+    def patch_redflag_comment(self,id,comment):
+        for redflag in redflags:
+            if redflag.get("id") == id:
+                redflag.update({"comment":comment})
+                return redflag
     
