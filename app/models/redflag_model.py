@@ -41,4 +41,12 @@ class RedFlag:
             if redflag.get("id") == id:
                 redflag.update({"comment":comment})
                 return redflag
+
+    def delete_redflag(self,id):
+        for redflag in redflags:
+            if redflag.get ("id") == id:
+                redflags.remove(redflag)
+                return redflag
+
+
     
