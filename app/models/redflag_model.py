@@ -41,5 +41,4 @@ class RedFlag:
             if redflag.get("id") == id:
                 redflag.update({"comment":comment})
                 return redflag
-
     
