@@ -21,7 +21,13 @@ class RedFlag:
             "status":status,
             "comment":comment
             }
+        
         redflags.append(redflag)
 
-    def get_redflags(self):
-        return redflags
+    def get_single_redflag_by_id(self,id):
+        for redflag in redflags:
+            if redflag.get ("id") == id:
+                return redflag
+
+
+    
