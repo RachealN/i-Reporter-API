@@ -35,6 +35,19 @@ def create_redflag():
     }
     return jsonify(response)
 
+@redflag_blueprint.route('/red-flags', methods = ['GET'])
+def get_redflag():
+
+
+    response = {
+        "status":200,
+        "data": redflag.get_redflags(),
+        "message":" Get all Redflags succesful"
+
+    }
+
+    return jsonify(response)
+
 
 
 
