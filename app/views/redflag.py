@@ -62,6 +62,24 @@ def get_single_redflag_by_id(id):
     
     return jsonify(response)
 
+@redflag_blueprint.route('/red-flags/<int:id>/location',methods = ['PATCH'])
+def edit_redflag_location(id):
+    request_data = request.get_json()
+    location = request_data.get("location")
+
+    redflag.patch_redflag_location(id,location)
+
+    data_list = []
+    data_list.append(redflag.get_single_redflag_by_id(id))
+    
+    response = {
+        "status":200,
+        "data": data_list,
+        "message":"Redflag created succesfully"
+
+    }
+    return jsonify(response)
+
 
 
 
