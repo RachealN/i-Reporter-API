@@ -6,10 +6,12 @@ from app import app
 
 class TestRedFlag(unittest.TestCase):
     def setUp(self):
+        pass
         self.client = app.test_client()
 
     
     def test_index(self):
+        pass
         result = self.client.get('/', content_type='application/json')
         self.assertEqual(result.status_code, 200)
         self.assertEqual(result.json, {"message": "Welcome to i-Reporter"})
