@@ -1,4 +1,5 @@
 redflags = []
+users = []
 
 def create_id(redflags):
     id = 1

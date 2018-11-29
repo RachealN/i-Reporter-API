@@ -1,18 +1,23 @@
 from flask import Blueprint,request,jsonify
 from app.models.redflag_model import RedFlag
 from app.data.data import create_id,redflags
+from app.controller.redflag_validator import RedFlagValidator
 import datetime
 
 
 
 redflag_blueprint = Blueprint("redflag_blueprint", __name__)
 redflag = RedFlag()
+@redflag_blueprint.route('/')
+def index():
+    return jsonify({"message": "Welcome to i-Reporter"}), 200
 
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
-def create_redflag():
+def create_redflag(): 
     request_data = request.get_json()
+    
     id = create_id(redflags)
-    createdOn =datetime.datetime.now()
+    createdOn = datetime.datetime.now()
     createdBy = request_data.get("createdBy")
     location = request_data.get("location")
     status = request_data.get("status")
@@ -37,16 +42,17 @@ def create_redflag():
 
 @redflag_blueprint.route('/red-flags', methods = ['GET'])
 def get_redflag():
+    pass
 
 
-    response = {
-        "status":200,
-        "data": redflag.get_redflags(),
-        "message":" Get all Redflags succesful"
+    # response = {
+    #     "status":200,
+    #     "data": redflag.get_redflags(redflag.get_all_redflags),
+    #     "message":" Get all Redflags succesful"
 
-    }
+    # }
 
-    return jsonify(response)
+    # return jsonify(response)
 
 @redflag_blueprint.route('/red-flags/<int:id>',methods = ['GET'])
 def get_single_redflag_by_id(id):
