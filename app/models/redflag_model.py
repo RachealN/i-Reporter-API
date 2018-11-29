@@ -1,5 +1,6 @@
 from flask import abort
 from app.data.data import redflags
+from app.controller.redflag_validator import RedFlagValidator
 
 class RedFlag:
     def __init__(self, **kwargs):
@@ -24,6 +25,9 @@ class RedFlag:
         
         redflags.append(redflag)
 
+    def get_redflags(self):
+        return redflags
+    
     def get_single_redflag_by_id(self,id):
         for redflag in redflags:
             if redflag.get ("id") == id:
