@@ -1,6 +1,6 @@
 from flask import abort
 from app.data.data import redflags
-from app.controller.redflag_validator import RedFlagValidator
+# from app.controller.redflag_validator import RedFlagValidator
 
 class RedFlag:
     def __init__(self, **kwargs):
@@ -10,9 +10,11 @@ class RedFlag:
         self.location = kwargs.get("location")
         self.incidentType = kwargs.get("incidentType")
         self.status = kwargs.get("status")
+        self.image = kwargs.get("image")
+        self.video = kwargs.get("video")
         self.comment = kwargs.get("comment")
 
-    def create_redflag(self,id,createdOn,createdBy,location,incidentType,status,comment):
+    def create_redflag(self,id,createdOn,createdBy,location,incidentType,status,comment,image,video):
         redflag = {
             "id":id,
             "createdOn":createdOn,
@@ -20,6 +22,8 @@ class RedFlag:
             "location":location,
             "incidentType":incidentType,
             "status":status,
+            "image":image,
+            "video":video,
             "comment":comment
             }
         

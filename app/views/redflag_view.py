@@ -1,16 +1,24 @@
 from flask import Blueprint,request,jsonify
 from app.models.redflag_model import RedFlag
 from app.data.data import create_id,redflags
-from app.controller.redflag_validator import RedFlagValidator
+from app.exception import InvalidUsage
+# from app.controller.redflag_validator import RedFlagValidator
 import datetime
+import re
 
 
 
 redflag_blueprint = Blueprint("redflag_blueprint", __name__)
 redflag = RedFlag()
+
 @redflag_blueprint.route('/')
 def index():
-    return jsonify({"message": "Welcome to i-Reporter"}), 200
+    response = {
+        "status":200,
+        "message":"Welcome to I-Reporter"
+
+    }
+    return jsonify(response)
 
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
 def create_redflag(): 
@@ -22,10 +30,20 @@ def create_redflag():
     location = request_data.get("location")
     status = request_data.get("status")
     incidentType = request_data.get("incidentType")
+    image = request_data.get("image")
+    video = request_data.get("video")
     comment = request_data.get("comment")
-   
-
-    redflag.create_redflag(id,createdOn,createdBy,location,status,incidentType,comment)
+    
+    createdBy = request_data.get("createdBy")
+    
+    if not createdBy or createdBy.isspace():
+        return jsonify({"message":"This field is required"}),400
+    charset = re.compile('[A-Za-z]')
+    checkmatch = charset.match(createdBy)
+    if not checkmatch:
+        return jsonify({"message":"createdBy must be letters"}),400
+           
+    redflag.create_redflag(id,createdOn,createdBy,location,status,incidentType,comment,image,video)
     request_data.update({"createdOn":createdOn})
     request_data.update({"id":id})
 
@@ -33,26 +51,28 @@ def create_redflag():
     data_list.append(request_data)
 
     response = {
-        "status":200,
-        "data": data_list,
-        "message":"Redflag created succesfully"
+            "status":201,
+            "data": data_list,
+            "message":"Redflag created succesfully"
 
-    }
+        }
     return jsonify(response)
+    
+
+
 
 @redflag_blueprint.route('/red-flags', methods = ['GET'])
 def get_redflag():
-    pass
 
+    response = {
+        "status":200,
+        "data": RedFlag.get_redflags(redflag.get_redflags),
 
-    # response = {
-    #     "status":200,
-    #     "data": redflag.get_redflags(redflag.get_all_redflags),
-    #     "message":" Get all Redflags succesful"
+        "message":" Get all Redflags succesful"
 
-    # }
+    }
 
-    # return jsonify(response)
+    return jsonify(response)
 
 @redflag_blueprint.route('/red-flags/<int:id>',methods = ['GET'])
 def get_single_redflag_by_id(id):
@@ -62,7 +82,7 @@ def get_single_redflag_by_id(id):
     response = {
         "status":200,
         "data": data_list,
-        "message":"Redflag created succesfully"
+        "message":"Get a redflag by id succesful"
 
     }
     
@@ -81,7 +101,7 @@ def edit_redflag_location(id):
     response = {
         "status":200,
         "data": data_list,
-        "message":"Redflag created succesfully"
+        "message":"Edit location succesfully"
 
     }
     return jsonify(response)
@@ -99,7 +119,7 @@ def edit_redflag_comment(id):
     response = {
         "status":200,
         "data": data_list,
-        "message":"Redflag created succesfully"
+        "message":"Edit comment succesful"
 
     }
     return jsonify(response)
@@ -113,7 +133,7 @@ def delete_redflag(id):
     response = {
         "status":200,
         "data": data_list,
-        "message":"Redflag created succesfully"
+        "message":"Redflag deleted succesfully"
 
     }
     return jsonify(response)
