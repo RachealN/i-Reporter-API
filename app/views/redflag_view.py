@@ -1,15 +1,15 @@
-from flask import Blueprint,request,jsonify
+from flask import Blueprint,request,json,jsonify,flash
 from app.models.redflag_model import RedFlag
-from app.data.data import create_id,redflags
-from app.exception import InvalidUsage
-# from app.controller.redflag_validator import RedFlagValidator
+from app.models.redflag_model import RedFlag,RedFlagBase,RedflagData
 import datetime
+from app.controller.redflag_controller import RedflagController
 import re
 
-
+    
 
 redflag_blueprint = Blueprint("redflag_blueprint", __name__)
-redflag = RedFlag()
+redflags = RedflagController()
+
 
 @redflag_blueprint.route('/')
 def index():
@@ -21,123 +21,35 @@ def index():
     return jsonify(response)
 
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
-def create_redflag(): 
-    request_data = request.get_json()
+def create_redflag():
     
-    id = create_id(redflags)
-    createdOn = datetime.datetime.now()
-    createdBy = request_data.get("createdBy")
-    location = request_data.get("location")
-    status = request_data.get("status")
-    incidentType = request_data.get("incidentType")
-    image = request_data.get("image")
-    video = request_data.get("video")
-    comment = request_data.get("comment")
+    return jsonify({'Data':RedflagController.create_redflag(redflags)}),201
     
-    createdBy = request_data.get("createdBy")
-    
-    if not createdBy or createdBy.isspace():
-        return jsonify({"message":"This field is required"}),400
-    charset = re.compile('[A-Za-z]')
-    checkmatch = charset.match(createdBy)
-    if not checkmatch:
-        return jsonify({"message":"createdBy must be letters"}),400
-           
-    redflag.create_redflag(id,createdOn,createdBy,location,status,incidentType,comment,image,video)
-    request_data.update({"createdOn":createdOn})
-    request_data.update({"id":id})
-
-    data_list = []
-    data_list.append(request_data)
-
-    response = {
-            "status":201,
-            "data": data_list,
-            "message":"Redflag created succesfully"
-
-        }
-    return jsonify(response)
-    
-
-
 
 @redflag_blueprint.route('/red-flags', methods = ['GET'])
-def get_redflag():
-
-    response = {
-        "status":200,
-        "data": RedFlag.get_redflags(redflag.get_redflags),
-
-        "message":" Get all Redflags succesful"
-
-    }
-
-    return jsonify(response)
-
-@redflag_blueprint.route('/red-flags/<int:id>',methods = ['GET'])
-def get_single_redflag_by_id(id):
-    data_list = []
-    data_list.append(redflag.get_single_redflag_by_id(id))
+def get_redflags():
+    return redflags.get_redflags(),200
     
-    response = {
-        "status":200,
-        "data": data_list,
-        "message":"Get a redflag by id succesful"
-
-    }
+   
+@redflag_blueprint.route('/red-flags/<int:user_id>',methods = ['GET'])
+def get_single_redflag_by_id(user_id):
+   return redflags.get_redflag_by_id(user_id),200
     
-    return jsonify(response)
 
-@redflag_blueprint.route('/red-flags/<int:id>/location',methods = ['PATCH'])
+@redflag_blueprint.route('/red-flags/<int:user_id>/location',methods = ['PATCH'])
 def edit_redflag_location(id):
-    request_data = request.get_json()
-    location = request_data.get("location")
-
-    redflag.patch_redflag_location(id,location)
-
-    data_list = []
-    data_list.append(redflag.get_single_redflag_by_id(id))
+    pass
     
-    response = {
-        "status":200,
-        "data": data_list,
-        "message":"Edit location succesfully"
 
-    }
-    return jsonify(response)
-
-@redflag_blueprint.route('/red-flags/<int:id>/comment',methods = ['PATCH'])
-def edit_redflag_comment(id):
-    request_data = request.get_json()
-    comment = request_data.get("comment")
-
-    redflag.patch_redflag_comment(id,comment)
-
-    data_list = []
-    data_list.append(redflag.get_single_redflag_by_id(id))
+@redflag_blueprint.route('/red-flags/<int:user_id>/comment',methods = ['PATCH'])
+def edit_redflag_comment(user_id):
+    return redflags.patch_redflag_by_comment(user_id),200
     
-    response = {
-        "status":200,
-        "data": data_list,
-        "message":"Edit comment succesful"
-
-    }
-    return jsonify(response)
-
-@redflag_blueprint.route('/red-flags/<int:id>',methods = ['DELETE'])
-def delete_redflag(id):
-
-    data_list = []
-    data_list.append(redflag.delete_redflag(id))
     
-    response = {
-        "status":200,
-        "data": data_list,
-        "message":"Redflag deleted succesfully"
-
-    }
-    return jsonify(response)
-
+@redflag_blueprint.route('/red-flags/<int:user_id>',methods = ['DELETE'])
+def delete_redflag(user_id):
+    return redflags.delete_redflag(user_id),200
+   
 
 
 

@@ -1,60 +1,65 @@
-from flask import abort
-from app.data.data import redflags
-# from app.controller.redflag_validator import RedFlagValidator
+from flask import abort,jsonify
+import datetime
+
+
+class RedFlagBase:
+    def __init__(self,location,incidentType, status):
+        self.location = location
+        self.incidentType = incidentType
+        self.status = status
+        self.createdOn = datetime.datetime.now()
+       
 
 class RedFlag:
-    def __init__(self, **kwargs):
-        self.id = kwargs.get("id")
-        self.createdOn = kwargs.get("createdON")
-        self.createdBy = kwargs.get("createdBy")
-        self.location = kwargs.get("location")
-        self.incidentType = kwargs.get("incidentType")
-        self.status = kwargs.get("status")
-        self.image = kwargs.get("image")
-        self.video = kwargs.get("video")
-        self.comment = kwargs.get("comment")
+    def __init__(self,base,image,video,comment,user_id):
+        self.base = base
+        self.image = image
+        self.video = video
+        self.comment = comment
+        self.user_id = user_id
+    
+    def redflag_json(self):
+        return {
+            "image": self.image,
+            "video": self.video,
+            "comment": self.comment,
+            "user_id": self.user_id,
+            "location": self.base.location,
+            "incidentType": self.base.incidentType,
+            "status": self.base.status,
+            "createdon": datetime.datetime.now()
+        }
 
-    def create_redflag(self,id,createdOn,createdBy,location,incidentType,status,comment,image,video):
-        redflag = {
-            "id":id,
-            "createdOn":createdOn,
-            "createdBy":createdBy,
-            "location":location,
-            "incidentType":incidentType,
-            "status":status,
-            "image":image,
-            "video":video,
-            "comment":comment
-            }
-        
-        redflags.append(redflag)
+
+class RedflagData:
+    def __init__(self):
+        self.redflags_list = []
+
+    def create_redflag(self,redflag):
+        return self.redflags_list.append(redflag)
+    
 
     def get_redflags(self):
-        return redflags
+        return self.redflags_list
+
+    def get_single_redflag_by_id(self, user_id):
+        for redflag in self.redflags_list:
+            if redflag.user_id == user_id:
+                return redflag
+        return None
+
+    def get_redflag_json(self):
+        return [redflag.redflag_json for redflag in self.redflags_list]
+
     
-    def get_single_redflag_by_id(self,id):
-        for redflag in redflags:
-            if redflag.get ("id") == id:
-                return redflag
+    
 
 
-    def patch_redflag_location(self,id,location):
-        for redflag in redflags:
-            if redflag.get("id") == id:
-                redflag.update({"location":location})
-                return redflag
 
-    def patch_redflag_comment(self,id,comment):
-        for redflag in redflags:
-            if redflag.get("id") == id:
-                redflag.update({"comment":comment})
-                return redflag
 
-    def delete_redflag(self,id):
-        for redflag in redflags:
-            if redflag.get ("id") == id:
-                redflags.remove(redflag)
-                return redflag
+
+
+
 
 
     
