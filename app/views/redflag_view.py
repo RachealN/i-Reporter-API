@@ -1,4 +1,4 @@
-from flask import Blueprint,request,json,jsonify,flash
+from flask import Blueprint,request,json,jsonify
 from app.models.redflag_model import RedFlag
 from app.models.redflag_model import RedFlag,RedFlagBase,RedflagData
 import datetime
