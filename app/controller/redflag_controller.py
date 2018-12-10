@@ -61,22 +61,27 @@ class RedflagController:
 
    
     def patch_redflag_by_comment(self,user_id):
-        
-        request_data = request.get_json()
-
+        data = request.get_json()
         red = redflagslist.get_single_redflag_by_id(user_id)
-
-        red.red = request_data.get('comment')
+        comment = data["comment"]
+        red.comment = comment
         return jsonify({
-                "data":[{"Success": "Updated red-flag record's comment."}],
-                'status': 200
-                }), 200
+            "status" : 200,
+            "message":"Updated red-flag record's comment."
+            })
         
        
-    def patch_redflag_by_location(self,id,location):
-        pass
-    
-
+    def patch_redflag_by_location(self,user_id):
+        data = request.get_json()
+        red = redflagslist.get_single_redflag_by_id(user_id)
+        location = data["location"]
+        red.location = location
+        return jsonify({
+            "status" : 200,
+            "message":"Updated red-flag record's location."
+            })
+        
+       
     def delete_redflag(self,user_id):
         red = redflagslist.get_single_redflag_by_id(user_id)
         if red:
