@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/RachealN/i-Reporter-API.svg?branch=develop)](https://travis-ci.org/RachealN/i-Reporter-API)
 [![Maintainability](https://api.codeclimate.com/v1/badges/e6a690deeb8a12c684b3/maintainability)](https://codeclimate.com/github/RachealN/i-Reporter-API/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/e6a690deeb8a12c684b3/test_coverage)](https://codeclimate.com/github/RachealN/i-Reporter-API/test_coverage)
+[![Coverage Status](https://coveralls.io/repos/github/RachealN/i-Reporter-API/badge.svg?branch=develop)](https://coveralls.io/github/RachealN/i-Reporter-API?branch=develop)
 
 # i-Reporter-API
 Corruption is a huge bane to Africa’s development. African countries must develop novel and localised solutions that will curb this menace, hence the birth of iReporter. iReporter enables any/every citizen to bring any form of corruption to the notice of appropriate authorities and the general public. Users can also report on things that needs government intervention

@@ -1,4 +1,4 @@
-from flask import Blueprint,request,json,jsonify
+from flask import Blueprint,request,json,jsonify,flash
 from app.models.redflag_model import RedFlag
 from app.models.redflag_model import RedFlag,RedFlagBase,RedflagData
 import datetime
@@ -37,8 +37,9 @@ def get_single_redflag_by_id(user_id):
     
 
 @redflag_blueprint.route('/red-flags/<int:user_id>/location',methods = ['PATCH'])
-def edit_redflag_location(id):
-    pass
+def edit_redflag_location(user_id):
+    return redflags.patch_redflag_by_location(user_id),200
+    
     
 
 @redflag_blueprint.route('/red-flags/<int:user_id>/comment',methods = ['PATCH'])
