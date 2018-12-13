@@ -1,61 +1,48 @@
 import json
-
-            
-class IncidentUser:
-    Num_of_users = 0
-    
-    def __init__(self,firstname,lastname,email,password,othernames,phonenumber,
-    username,registered,isAdmin,user_id):
-        self.firstname = firstname
-        self.lastname = lastname
-        self.email = email
-        self.password = password
-        self.othernames = othernames
-        self.phonenumber = phonenumber
-        self.registered = registered
-        self.isAdmin = isAdmin
-        self.user_id = user_id
+import datetime
 
 
-    def to_json(self):
-        return {
-            "firstname": self.firstname,
-            "lastname": self.lastname,
-            "email": self.email,
-            "password": self.password,
-            "othernames": self.othernames,
-            "phonenumber": self.phonenumber,
-            "registered": self.registered,
-            "isAdmin": self.isAdmin,
-            "user_id": self.user_id,
-            
-        }
-class Registration(IncidentUser):
-    def create_user_email(self):
-        pass
+users = [] 
+         
 
-    def create_user_password(self):
-        pass
-
-
-class User(IncidentUser):
-    def __init__(self,users = None):
-        if users is None:
-            self.users = []
-        else:
-            self.users = users
-
+class UserModel:
+    # Num_of_users = 0
+    def __init__(self):
+        self.users = users
         
-    def add_redflag_user(self,user):
-        if user not in self.users:
-            return self.users.append(user)
 
-    def get_redflag_users(self,user):
+    def add_user(self,args):
+        
+            user = dict(
+                user_id = len(users) + 1,
+                firstname = args['firstname'],
+                lastname = args['lastname'],
+                othernames = args['othernames'],
+                email = args['email'],
+                phonenummber = args['phonenumber'],
+                username = args['username'],
+                registered = str(datetime.datetime.now()),
+                isAdmin = args['isAdmin']
+
+            )
+
+            users.append(user)
+            return user
+
+       
+
+    def get_all_users(self):
         return self.users
         
-    def get_redflag_user_id(self,user_id):
+    def get_user_by_id(self,userId):
         for user in self.users:
-            if user.user_id == user_id:
+            if user['user_id'] == userId:
+                return user
+        return None
+
+    def get_user_by_email(self,email):
+        for user in self.users:
+            if user['email'] == email:
                 return user
         return None
 

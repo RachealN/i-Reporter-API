@@ -22,8 +22,8 @@ def index():
 
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
 def create_redflag():
-    
     return jsonify({'Data':RedflagController.create_redflag(redflags)}),201
+
     
 
 @redflag_blueprint.route('/red-flags', methods = ['GET'])

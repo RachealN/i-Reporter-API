@@ -1,12 +1,12 @@
 from flask import request,jsonify
 from app.models.redflag_model import RedFlagBase,RedFlag,RedflagData
-from app.exception import Valid
+from app.validations import Validator
 import re
 
 
 
 redflagslist = RedflagData()
-
+validation_input = Validator()
 
 class RedflagController:
     def __init__(self):
@@ -23,7 +23,22 @@ class RedflagController:
         video = request_data.get("video")
         status = "draft"
         comment = request_data.get("comment")
+
 #validation
+        if not validation_input.validate_string_input(location):
+            return ({
+                "message": "location should be a string"
+                }),400
+        if not validation_input.validate_string_input(comment):
+            return ({
+                "message": "comment should be a string"
+                }),400
+
+        if not validation_input.validate_string_input(incidentType):
+            return ({
+                "message": "incidentType should be a string"
+                }),400
+
         
         my_redflag = RedFlag(RedFlagBase(location,incidentType,status),image,video,comment,user_id)
         redflagslist.create_redflag(my_redflag)
@@ -63,20 +78,34 @@ class RedflagController:
     def patch_redflag_by_comment(self,user_id):
         data = request.get_json()
         red = redflagslist.get_single_redflag_by_id(user_id)
-        comment = data["comment"]
-        red.comment = comment
+        if red:
+            comment = data["comment"]
+            red.comment = comment
+            return jsonify({
+                "status" : 200,
+                "message": "red-flag comment has been updated successfully."
+                })
         return jsonify({
-            "status" : 200,
-            "message":"Updated red-flag record's comment."
-            })
-        
+                "status" : 200,
+                "message": "red-flag comment with that user_id is not found."
+                })
        
     def patch_redflag_by_location(self,user_id):
         data = request.get_json()
         red = redflagslist.get_single_redflag_by_id(user_id)
-        location = data["location"]
-        red.location = location
-        return red.location
+        if red:
+            location = data["location"]
+            red.location = location
+            return jsonify({
+                "status" : 200,
+                "message":" red-flag location location has been updated successfully."
+                })
+        return jsonify({
+            "status" : 200,
+                "message":" red-flag location with that id not found."
+
+        })
+        
         
        
     def delete_redflag(self,user_id):
@@ -89,7 +118,7 @@ class RedflagController:
                })
         return jsonify({
             "Error":"Redflag with that user_id doesnot exist",
-            "status":400
+            "status":200
         })
                
 
