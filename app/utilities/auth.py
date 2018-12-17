@@ -25,17 +25,7 @@ class AuthHelper:
         except Exception as identifier:
             return identifier
         
-            
-    # def decode_auth_token(self, authtoken):
-    #     try:
-    #         payload = jwt.decode(authtoken, self.secret_key)
-
-    #         return payload['sub']
         
-    #     except jwt.ExpiredSignatureError:
-    #         return 'The token has expired. Please log in again'
-    #     except jwt.InvalidTokenError:
-    #         return 'invalid token. Please login again'
     
     def token_required(self,f):
         @wraps(f)
@@ -50,7 +40,6 @@ class AuthHelper:
 
             try:
                 data = jwt.decode(payload,self.secret_key)
-                # new_user = user_model.get_user_by_id(data('user_id')
                 new_user = data.encode_auth_token('user_id')
 
             except:
