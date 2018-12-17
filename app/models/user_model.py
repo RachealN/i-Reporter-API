@@ -1,18 +1,18 @@
 import json
 import datetime
+from werkzeug.security import generate_password_hash,check_password_hash
 
 
 users = [] 
          
 
 class UserModel:
-    # Num_of_users = 0
     def __init__(self):
         self.users = users
         
 
     def add_user(self,args):
-        
+            
             user = dict(
                 user_id = len(users) + 1,
                 firstname = args['firstname'],
@@ -20,17 +20,16 @@ class UserModel:
                 othernames = args['othernames'],
                 email = args['email'],
                 phonenummber = args['phonenumber'],
+                password = args['password'],
                 username = args['username'],
                 registered = str(datetime.datetime.now()),
-                isAdmin = args['isAdmin']
+                isAdmin = True
 
             )
 
             users.append(user)
             return user
-
-       
-
+           
     def get_all_users(self):
         return self.users
         
@@ -45,6 +44,8 @@ class UserModel:
             if user['email'] == email:
                 return user
         return None
+
+    
 
 
    

@@ -1,5 +1,6 @@
-from flask import Blueprint,request,json,jsonify
+from flask import Blueprint,request,json,jsonify,make_response
 from app.controller.user_controller import UserController
+# from app.utilities.auth import AuthHelper
 
 
 
@@ -29,25 +30,12 @@ def register_user():
     return user_controller.register_user(request_data),201
     
     
+    
 
 @Auth_blueprint.route('/login', methods = ["POST"])
-def login_user(user_id):
-    auth_header = request.headers.get('Authorization')
-    if auth_header:
-        try:
-            auth_token = auth_header.split(" ")[1]
-
-        except IndexError:
-            return jsonify({
-                'message':'Bearer token malformed.'
-            })
-
-    else:
-        auth_token = ''
-
-    data = request.get_json()
-    return user_controller.login(auth_token, data)
-
+def login_user():
+    return user_controller.login,200
+    
 
 
 
