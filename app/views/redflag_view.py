@@ -22,8 +22,8 @@ def index():
 
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
 def create_redflag():
-    
     return jsonify({'Data':RedflagController.create_redflag(redflags)}),201
+
     
 
 @redflag_blueprint.route('/red-flags', methods = ['GET'])
@@ -37,8 +37,9 @@ def get_single_redflag_by_id(user_id):
     
 
 @redflag_blueprint.route('/red-flags/<int:user_id>/location',methods = ['PATCH'])
-def edit_redflag_location(id):
-    pass
+def edit_redflag_location(user_id):
+    return redflags.patch_redflag_by_location(user_id),200
+    
     
 
 @redflag_blueprint.route('/red-flags/<int:user_id>/comment',methods = ['PATCH'])

@@ -3,28 +3,28 @@ import datetime
 
 
 class RedFlagBase:
-    def __init__(self,location,incidentType, status):
-        self.location = location
+    def __init__(self,video,incidentType, status):
+        self.video = video
         self.incidentType = incidentType
         self.status = status
         self.createdOn = datetime.datetime.now()
        
 
 class RedFlag:
-    def __init__(self,base,image,video,comment,user_id):
+    def __init__(self,base,image,location,comment,user_id):
         self.base = base
         self.image = image
-        self.video = video
+        self.location = location        
         self.comment = comment
         self.user_id = user_id
     
     def redflag_json(self):
         return {
             "image": self.image,
-            "video": self.video,
+            "location": self.location,
             "comment": self.comment,
             "user_id": self.user_id,
-            "location": self.base.location,
+            "video": self.base.video,
             "incidentType": self.base.incidentType,
             "status": self.base.status,
             "createdon": datetime.datetime.now()
@@ -32,6 +32,7 @@ class RedFlag:
 
 
 class RedflagData:
+
     def __init__(self):
         self.redflags_list = []
 

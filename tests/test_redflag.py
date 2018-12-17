@@ -50,10 +50,26 @@ class TestRedFlag(TestBase):
         self.assertTrue(self.redflag,response.data)
 
     def test_edit_redflag_location(self):
-        pass
+        
+        response = self.client.patch('/api/v1/red-flags/<int:user_id>/location',
+        data = json.dumps(dict(
+            location = "bribe")))
+        
+        # self.assertEqual(response.status_code,200)
+        self.assertTrue(self.redflag,response.data)
+        self.assertIn("",str(response.data))
+        self.assertNotEqual("red-flag location with that id not found",str(response.data))
 
     def test_edit_redflag_comment(self):
-        pass
+        response = self.client.patch('/api/v1/red-flags/<int:user_id>/comment',
+        data = json.dumps(dict(
+            location = "muk")))
+        
+        # self.assertEqual(response.status_code,200)
+        self.assertTrue(self.redflag,response.data)
+        self.assertIn("",str(response.data))
+        self.assertNotEqual("red-flag comment with that id not found",str(response.data))
+        
 
     def test_delete_redflag(self):
         response=self.client.delete('/api/v1/red-flags/1',
