@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import json
 import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -49,3 +50,5 @@ class UserModel:
 
 
    
+=======
+>>>>>>> 5e041fd78a4e53ed338e324284fa5379ac1c0681
