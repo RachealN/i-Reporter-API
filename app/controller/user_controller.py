@@ -55,22 +55,39 @@ class UserController:
         
 
     def login(self, user_id, args):
-
-        auth = request.authorization
-
-        if not auth or not auth.username or not auth.password:
-            return make_response('could not verify',401,{'www-Authenticate':'Basic realm="Login required!"'})
-
-        new_user = self.auth_helper.encode_auth_token(user_id)
-       
+        user_model = UserModel()
         
-        
-        if not new_user:
-            return make_response('could not verify',401,{'www-Authenticate':'Basic realm="Login required"'})
+        # auth_header = request.headers.get('Authorization')
+        # access_token = auth_header.split(" ")[1]
 
-        if check_password_hash(new_user.password, auth.password):
-            return make_response('could not verify',401,{'www-Authenticate':'Basic realm="Login required"'})
         
+        try:
+            user = user_model.get_user_by_id(user_id)
+            if user and user.password(request.data['password']):
+                
+                access_token = user.encode_auth_token(user_id)
+                if access_token:
+                     response = {
+                        'message': 'You logged in successfully.',
+                        'access_token': access_token.decode()
+                    }
+                return make_response(jsonify(response)), 200
+
+            else:
+                response = {
+                    'message': 'Invalid email or password, Please try again'
+                }
+                return make_response(jsonify(response)), 401
+
+    
+        except Exception as Error:
+            response = {
+                'message': str(Error)
+            }
+            return make_response(jsonify(response)), 500
+
+
+
     def get_all_users(self):
         user_model = UserModel()
 

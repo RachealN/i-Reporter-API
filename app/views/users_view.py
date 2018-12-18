@@ -3,8 +3,8 @@ from app.controller.user_controller import UserController
 
 
 
-Auth_blueprint = Blueprint("Auth_blueprint", __name__)
 
+Auth_blueprint = Blueprint("Auth_blueprint", __name__)
 user_controller = UserController()
 
 @Auth_blueprint.route('/users', methods = ["GET"])
