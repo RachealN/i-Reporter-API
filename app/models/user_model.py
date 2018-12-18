@@ -7,6 +7,7 @@ users = []
          
 
 class UserModel:
+
     def __init__(self):
         self.users = users
         
@@ -48,4 +49,4 @@ class UserModel:
     
 
 
-   
+myuser_list = [{"username":"Namara", "password":"pass"}]   #example

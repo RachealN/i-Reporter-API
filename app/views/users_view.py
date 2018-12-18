@@ -1,5 +1,7 @@
 from flask import Blueprint,request,json,jsonify,make_response
+from app.models.user_model import UserModel,myuser_list  #this needs to be remove/remember example
 from app.controller.user_controller import UserController
+from app.utilities.auth import AuthHelper #example
 
 
 
@@ -32,11 +34,12 @@ def register_user():
     
 
 @Auth_blueprint.route('/login', methods = ["POST"])
-def login_user():
-    return user_controller.login,200
+def login_user(): #example
+    data = request.get_json()
+    for user in myuser_list:
+        if data["username"] == user["username"]:
+            return "True"
+            # return {"Token": encode_auth_token(user["user_id"])}
+        else:
+            return "False"
     
-
-
-
-
-

@@ -1,5 +1,5 @@
-from flask import request, jsonify,make_response
-from app.models.user_model import UserModel
+from flask import request, jsonify,make_response, json
+from app.models.user_model import UserModel,myuser_list
 from app.utilities.auth import AuthHelper
 from werkzeug.security import generate_password_hash,check_password_hash
 import datetime
@@ -8,6 +8,7 @@ import jwt
 class UserController:
     user_list = UserModel()
     auth_helper = AuthHelper()
+
 
     def __init__(self):
         self.users = []
@@ -52,39 +53,46 @@ class UserController:
         })
 
         
-        
 
-    def login(self, user_id, args):
-        user_model = UserModel()
-        
-        # auth_header = request.headers.get('Authorization')
-        # access_token = auth_header.split(" ")[1]
 
+    # def login(self):
+    #     data = request.get_json()
+    #     for user in myuser_list:
+    #         if data['username'] == user["username"]:
+    #             return "HELLO"
+    #         else:
+    #             return "This didn't workout my brother"
+
+        # user_model = UserModel()
         
-        try:
-            user = user_model.get_user_by_id(user_id)
-            if user and user.password(request.data['password']):
+        # # auth_header = request.headers.get('Authorization')
+        # # access_token = auth_header.split(" ")[1]
+
+        # request_data=request.get_json()
+        # try:
+        #     user = user_model.get_user_by_id(user_id)
+        #     if user and user.user_id(request_data['user_id']):
                 
-                access_token = user.encode_auth_token(user_id)
-                if access_token:
-                     response = {
-                        'message': 'You logged in successfully.',
-                        'access_token': access_token.decode()
-                    }
-                return make_response(jsonify(response)), 200
+        #         access_token = user.encode_auth_token(user_id)
+        #         if access_token:
+        #              response = {
+        #                 'message': 'You logged in successfully.',
+        #                 'access_token': access_token.decode()
+        #             }
+        #         return make_response(jsonify(response)), 200
 
-            else:
-                response = {
-                    'message': 'Invalid email or password, Please try again'
-                }
-                return make_response(jsonify(response)), 401
+        #     else:
+        #         response = {
+        #             'message': 'Invalid email or password, Please try again'
+        #         }
+        #         return make_response(jsonify(response)), 401
 
     
-        except Exception as Error:
-            response = {
-                'message': str(Error)
-            }
-            return make_response(jsonify(response)), 500
+        # except Exception as Error:
+        #     response = {
+        #         'message': str(Error)
+        #     }
+        #     return make_response(jsonify(response)), 500
 
 
 

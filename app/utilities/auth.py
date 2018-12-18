@@ -8,6 +8,7 @@ import app
 
 
 class AuthHelper:
+    
     def __init__(self):
         self.secret_key = "thisismysecretkey"
 
@@ -47,25 +48,25 @@ class AuthHelper:
         
         
     
-    # def token_required(self,f):
-    #     @wraps(f)
-    #     def decorated(*args):
-    #         payload = None
+    def token_required(self,f):
+        @wraps(f)
+        def decorated(*args):
+            payload = None
             
-    #         if 'x-access-token' in request.headers:
-    #             payload = request.headers['x-access-token']
+            if 'x-access-token' in request.headers:
+                payload = request.headers['x-access-token']
             
-    #         if not payload:
-    #             return jsonify({'message':'Token is missing'}), 401
+            if not payload:
+                return jsonify({'message':'Token is missing'}), 401
 
-    #         try:
-    #             data = jwt.decode(payload,self.secret_key)
-    #             new_user = data.encode_auth_token('user_id')
+            try:
+                data = jwt.decode(payload,self.secret_key)
+                new_user = data.encode_auth_token('user_id')
 
-    #         except:
-    #             return jsonify({'message':'Token is Invalid'}),401
+            except:
+                return jsonify({'message':'Token is Invalid'}),401
 
-    #         return f(new_user,*args)
+            return f(new_user,*args)
 
-    #     return decorated
+        return decorated
 
