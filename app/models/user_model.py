@@ -1,13 +1,14 @@
-<<<<<<< HEAD
 import json
 import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 
 
 users = [] 
+myuser_list = [{"username":"Namaara", "password":"Racheal","isAdmin":True,"email":"racheal@gmail.com"}] 
          
 
 class UserModel:
+
     def __init__(self):
         self.users = users
         
@@ -46,9 +47,15 @@ class UserModel:
                 return user
         return None
 
+# class UserCredentials:
+#     def __init__(self,email,password):
+#         self.email = email
+#         self.hashed_password = generate_password_hash(['password'],method = 'sha256')
+
+#     def password_is_valid(self,password):
+#         return check_password_hash(self.hashed_password, password)
+
     
 
 
-   
-=======
->>>>>>> 5e041fd78a4e53ed338e324284fa5379ac1c0681
+  

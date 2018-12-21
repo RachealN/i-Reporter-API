@@ -77,7 +77,6 @@ class RedflagController:
    
     def patch_redflag_by_comment(self,user_id):
         data = request.get_json()
-<<<<<<< HEAD
         red = redflagslist.get_single_redflag_by_id(user_id)
         if red:
             comment = data["comment"]
@@ -109,28 +108,6 @@ class RedflagController:
         
         
        
-=======
-        red = redflagslist.get_single_redflag_by_id(user_id)
-        comment = data["comment"]
-        red.comment = comment
-        return jsonify({
-            "status" : 200,
-            "message":"Updated red-flag record's comment."
-            })
-        
-       
-    def patch_redflag_by_location(self,user_id):
-        data = request.get_json()
-        red = redflagslist.get_single_redflag_by_id(user_id)
-        location = data["location"]
-        red.location = location
-        return jsonify({
-            "status" : 200,
-            "message":"Updated red-flag record's location."
-            })
-        
-       
->>>>>>> 5e041fd78a4e53ed338e324284fa5379ac1c0681
     def delete_redflag(self,user_id):
         red = redflagslist.get_single_redflag_by_id(user_id)
         if red:

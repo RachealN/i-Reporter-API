@@ -8,32 +8,38 @@ import app
 
 
 class AuthHelper:
+    
     def __init__(self):
-        self.secret_key = "thisismysecretkey"
+        self.secret_key = "thisismyireportersecretkey"
 
     def encode_auth_token(self, user_id):
+        """Generates the access Token"""     
+
+        payload = jwt.encode({
+                
+                'sub': user_id,
+                'iat':datetime.datetime.now(),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+                    self.secret_key).decode('utf-8'),
+                
+        return payload
+
+    
+    def decode_token(self,payload):
+        """Decodes the access token from the Authoriazation header"""
+        Token = jwt.decode(payload, self.secret_key, algorithms=['HS256'])
+        return Token
         
-       
-        try:
-            payload = jwt.encode ({
-                'user':auth.username,
-                'sub': str(user_id), 
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
-                },self.secret_key)
-            return jsonify({'Token':payload.decode('UTF-8')})
-        
-        except Exception as identifier:
-            return identifier
-        
-        
+
     
     def token_required(self,f):
         @wraps(f)
-        def decorated(*args):
+        def decorated(*args, **kwargs):
             payload = None
             
-            if 'x-access-token' in request.headers:
-                payload = request.headers['x-access-token']
+            
+            if 'access_token' in request.headers:
+                payload = request.headers['access_token']
             
             if not payload:
                 return jsonify({'message':'Token is missing'}), 401

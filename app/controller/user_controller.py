@@ -1,5 +1,5 @@
-from flask import request, jsonify,make_response
-from app.models.user_model import UserModel
+from flask import request, jsonify,make_response, json
+from app.models.user_model import UserModel,myuser_list
 from app.utilities.auth import AuthHelper
 from werkzeug.security import generate_password_hash,check_password_hash
 import datetime
@@ -8,6 +8,7 @@ import jwt
 class UserController:
     user_list = UserModel()
     auth_helper = AuthHelper()
+
 
     def __init__(self):
         self.users = []
@@ -34,10 +35,10 @@ class UserController:
         
         user = self.user_list.add_user(args)
 
-        user_id = user['user_id']
-        auth_token = self.auth_helper.encode_auth_token(user_id)  
+        # user_id = user['user_id']
+        # auth_token = self.auth_helper.encode_auth_token(user_id)  
 
-        if not auth_token or auth_token is None:
+        if not user or user is None:
             return jsonify({
                 'message':'user was not created',
                 "status": 400
@@ -51,26 +52,23 @@ class UserController:
     
         })
 
-        
+
+    def login(self,access_token,args):
+        request_data = request.get_json()
+ 
+        for  user in myuser_list:
+            if request_data['email'] == user['email'] and request_data['password'] == user['password'] :
+                return  jsonify({
+                        'Token': self.auth_helper.encode_auth_token(user)
+                    })
+
+            return jsonify({
+                'message':'Invalid username or password, Please try again'
+                
+                })
+            
         
 
-    def login(self, user_id, args):
-
-        auth = request.authorization
-
-        if not auth or not auth.username or not auth.password:
-            return make_response('could not verify',401,{'www-Authenticate':'Basic realm="Login required!"'})
-
-        new_user = self.auth_helper.encode_auth_token(user_id)
-       
-        
-        
-        if not new_user:
-            return make_response('could not verify',401,{'www-Authenticate':'Basic realm="Login required"'})
-
-        if check_password_hash(new_user.password, auth.password):
-            return make_response('could not verify',401,{'www-Authenticate':'Basic realm="Login required"'})
-        
     def get_all_users(self):
         user_model = UserModel()
 
@@ -80,10 +78,11 @@ class UserController:
                 'message':'No users were found',
                 'status':400
             })
+        
         return ({
-                'user': user_model.users,
-                'status':200,
-                'message':'success'
+            'user': user_model.users,
+            'status':200,
+            'message':'success'
                 })
         
     def get_user_by_id(self,userId):
@@ -91,7 +90,7 @@ class UserController:
 
         user = user_model.get_user_by_id(userId)
         if not user:
-           return({
+            return({
                'status':200,
                'message':'user with that id not found'
            })
@@ -100,5 +99,8 @@ class UserController:
             'message': 'success',
             'user': user
             })
+
+    
+
 
     
