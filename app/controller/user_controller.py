@@ -15,22 +15,6 @@ class UserController:
         
     
     def register_user(self,args):
-    
- 
-        # user = self.user_list.add_user(args)
-        # if not user:
-        #     return jsonify({
-        #         'message':'user was not created',
-        #         "status": 400
-        #     })
-           
-
-        # return jsonify({
-        #     "status": 201,
-        #     'message': 'user created successfully' ,
-        #     'users': user
-    
-        # })
         
         
         user = self.user_list.add_user(args)

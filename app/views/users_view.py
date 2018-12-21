@@ -23,7 +23,7 @@ def get_user(user_id):
     
 
 @Auth_blueprint.route('/register', methods = ["POST"])
-@required.token_required
+# @required.token_required
 def register_user():
     request_data = request.get_json()
     return user_controller.register_user(request_data),201
