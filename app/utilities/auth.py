@@ -10,51 +10,36 @@ import app
 class AuthHelper:
     
     def __init__(self):
-        self.secret_key = "thisismysecretkey"
+        self.secret_key = "thisismyireportersecretkey"
 
     def encode_auth_token(self, user_id):
-        """Generates the access Token"""
-        try:
-            payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
-            'iat': datetime.datetime.utcnow(),
-            'sub': user_id  
-            }
-            token = jwt.encode(
-                payload,
-                self.secret_key,
-                algorithm='HS256'
-            )
-            return token
-        
-        except Exception as Error:
-            return str(Error)
+        """Generates the access Token"""     
+
+        payload = jwt.encode({
+                
+                'sub': user_id,
+                'iat':datetime.datetime.now(),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},
+                    self.secret_key).decode('utf-8'),
+                
+        return payload
 
     
-    def decode_token(self,token):
+    def decode_token(self,payload):
         """Decodes the access token from the Authoriazation header"""
+        Token = jwt.decode(payload, self.secret_key, algorithms=['HS256'])
+        return Token
         
-        try:
-            payload = jwt.decode(token,self.secret_key)
-            return payload['sub']
-        
-        except jwt.ExpiredSignatureError:
-            return "Expired token. Please login to get a new token"
-        except jwt.InvalidTokenError:
-            return "Invalid token. Please register or login"
 
-
-    
-        
-        
     
     def token_required(self,f):
         @wraps(f)
-        def decorated(*args):
+        def decorated(*args, **kwargs):
             payload = None
             
-            if 'x-access-token' in request.headers:
-                payload = request.headers['x-access-token']
+            
+            if 'access_token' in request.headers:
+                payload = request.headers['access_token']
             
             if not payload:
                 return jsonify({'message':'Token is missing'}), 401
