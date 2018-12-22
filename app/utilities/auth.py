@@ -55,3 +55,50 @@ class AuthHelper:
 
         return decorated
 
+    def requires_auth(self,username,password):
+        return username == 'user' and password == 'secret'
+    
+    def admin_auth(self,username,password):
+        return username == 'Admin' and password == 'secret'
+    
+    
+
+    def user_auth_required(self,f):
+        @wraps(f)
+        def user_decorator(*args,**kwargs):
+            auth = request.authorization
+            user_auth = AuthHelper()
+        
+            
+            if not auth: 
+                return jsonify({'message':'Authentication is required'})
+
+            elif not user_auth.requires_auth(auth.username, auth.password):
+                
+                return jsonify({'message':'Authentication is required'}),401
+            
+            return f(*args, **kwargs)
+
+        return user_decorator
+
+
+    def admin_auth_required(self,f):
+        @wraps(f)
+        def admin_decorator(*args,**kwargs):
+            auth = request.authorization
+            user_auth = AuthHelper()
+        
+            
+            if not auth: 
+                return jsonify({'message':'Authentication is required'})
+
+            elif not user_auth.admin_auth(auth.username, auth.password):
+                
+                return jsonify({'message':'Authentication is required'}),401
+            
+            return f(*args, **kwargs)
+
+        return admin_decorator
+
+        
+
