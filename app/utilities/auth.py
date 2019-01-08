@@ -1,4 +1,5 @@
-from flask import request,jsonify,make_response
+from flask import request,jsonify
+from app.models.user_model import UserModel
 import os 
 import datetime
 import jwt
@@ -6,7 +7,7 @@ from functools import wraps
 import app
 
 
-
+uzer = UserModel()
 class AuthHelper:
     
     def __init__(self):
@@ -37,42 +38,34 @@ class AuthHelper:
             payload = None
             
             
-            if 'access_token' in request.headers:
-                payload = request.headers['access_token']
-            
+            if 'Authorization' in request.headers:
+                payload = request.headers['Authorization'].split(" ")[1]
+                
             if not payload:
                 return jsonify({'message':'Token is missing'}), 401
                 
-            data = jwt.decode(payload,self.secret_key)
-            print("$$$$$$$$$",data)
+                  
+            # data = jwt.decode(payload,self.secret_key)
+                
 
-            if data:
-                new_user = data.encode_auth_token('user_id')
-                print("%%%%%%%%%",new_user)
-            else:
+            try:
+                
+                data = jwt.decode(payload,self.secret_key)
+                new_user = AuthHelper().encode_auth_token('user_id')
+                isAdmin = AuthHelper().encode_auth_token('admin')
+               
+            except:
                 return jsonify({'message':'Token is invalid'}),401
-            return f(new_user=1,*args)
+            return f(isAdmin,new_user,*args)
         return decorated
 
 
-        #     try:
-        #         data = jwt.decode(payload,self.secret_key)
-        #         new_user = data['user_id']
-        #         print(new_user)
-        #         # new_user = data.encode_auth_token('user_id')
-
-        #     except:
-        #         return jsonify({'message':'Token is Invalid'}),401
-
-        #     return f(new_user,*args)
-
-        # return decorated
 
     def requires_auth(self,username,password):
-        return username == 'user' and password == 'secret'
+        if username and password:
+            return username == 'user' and password == 'user'
+        # return username == 'admin' and password == 'admin'
     
-    def admin_auth(self,username,password):
-        return username == 'Admin' and password == 'secret'
     
     
 
@@ -81,37 +74,17 @@ class AuthHelper:
         def user_decorator(*args,**kwargs):
             auth = request.authorization
             user_auth = AuthHelper()
-        
-            
+           
             if not auth: 
-                return jsonify({'message':'Authentication is required'})
+                return jsonify({'message':'Authenticate'})
 
             elif not user_auth.requires_auth(auth.username, auth.password):
                 
                 return jsonify({'message':'Authentication is required'}),401
-            
+
             return f(*args, **kwargs)
 
         return user_decorator
 
 
-    def admin_auth_required(self,f):
-        @wraps(f)
-        def admin_decorator(*args,**kwargs):
-            auth = request.authorization
-            user_auth = AuthHelper()
-        
-            
-            if not auth: 
-                return jsonify({'message':'Authentication is required'})
-
-            elif not user_auth.admin_auth(auth.username, auth.password):
-                
-                return jsonify({'message':'Authentication is required'}),401
-            
-            return f(*args, **kwargs)
-
-        return admin_decorator
-
-        
-
+    

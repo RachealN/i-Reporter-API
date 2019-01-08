@@ -4,8 +4,7 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 
 users = [] 
-myuser_list = [{"username":"Namaara", "password":"Racheal","isAdmin":True,"email":"racheal@gmail.com"}] 
-         
+
 
 class UserModel:
 
@@ -14,8 +13,8 @@ class UserModel:
         
 
     def add_user(self,args):
-            
-            user = dict(
+        """initialize user's parameters"""
+        user = dict(
                 user_id = len(users) + 1,
                 firstname = args['firstname'],
                 lastname = args['lastname'],
@@ -25,12 +24,11 @@ class UserModel:
                 password = args['password'],
                 username = args['username'],
                 registered = str(datetime.datetime.now()),
-                isAdmin = True
-
+                isAdmin = True 
             )
 
-            users.append(user)
-            return user
+        users.append(user)
+        return user
            
     def get_all_users(self):
         return self.users

@@ -1,13 +1,15 @@
 from flask import request, jsonify,make_response, json
-from app.models.user_model import UserModel,myuser_list
+from app.models.user_model import UserModel,users
 from app.utilities.auth import AuthHelper
 from werkzeug.security import generate_password_hash,check_password_hash
 import datetime
 import jwt
+import re
 
 class UserController:
     user_list = UserModel()
     auth_helper = AuthHelper()
+    
 
 
     def __init__(self):
@@ -18,10 +20,10 @@ class UserController:
         
         
         user = self.user_list.add_user(args)
+        
 
-        # user_id = user['user_id']
-        # auth_token = self.auth_helper.encode_auth_token(user_id)  
-
+        user_id = user['user_id']
+        auth_token = self.auth_helper.encode_auth_token(user_id) 
         if not user or user is None:
             return jsonify({
                 'message':'user was not created',
@@ -31,16 +33,19 @@ class UserController:
 
         return jsonify({
             "status": 201,
-            'message': 'user created but not authenticated, please login first' ,
+            'message': 'user has been succesfully created' ,
             'users': user
     
         })
 
+       
+        
+
 
     def login(self,access_token,args):
         request_data = request.get_json()
- 
-        for  user in myuser_list:
+        
+        for  user in users:
             if request_data['email'] == user['email'] and request_data['password'] == user['password'] :
                 return  jsonify({
                         'Token': self.auth_helper.encode_auth_token(user)
@@ -51,6 +56,9 @@ class UserController:
                 
                 
                 })
+        return jsonify({'message':'Not registered,please register first before logging in'})
+        
+    
             
         
 
@@ -117,7 +125,7 @@ class UserController:
 
         except:
             return ({
-                'error': 'error',
+                'error': 'user has not been updated',
                 'status':401
             })
             

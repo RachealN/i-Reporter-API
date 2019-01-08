@@ -11,19 +11,19 @@ class RedFlagBase:
        
 
 class RedFlag:
-    def __init__(self,base,image,location,comment,user_id):
+    def __init__(self,base,image,location,comment,id):
         self.base = base
         self.image = image
         self.location = location        
         self.comment = comment
-        self.user_id = user_id
+        self.id = id
     
     def redflag_json(self):
         return {
             "image": self.image,
             "location": self.location,
             "comment": self.comment,
-            "user_id": self.user_id,
+            "id": self.id,
             "video": self.base.video,
             "incidentType": self.base.incidentType,
             "status": self.base.status,
@@ -43,14 +43,14 @@ class RedflagData:
     def get_redflags(self):
         return self.redflags_list
 
-    def get_single_redflag_by_id(self, user_id):
+    def get_single_redflag_by_id(self, id):
         for redflag in self.redflags_list:
-            if redflag.user_id == user_id:
+            if redflag.id == id:
                 return redflag
         return None
 
-    def get_redflag_json(self):
-        return [redflag.redflag_json for redflag in self.redflags_list]
+    # def get_redflag_json(self):
+    #     return [redflag.redflag_json for redflag in self.redflags_list]
 
     
     

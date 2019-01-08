@@ -18,20 +18,21 @@ class TestRedFlag(TestBase):
         response = self.client.post('/api/v1/red-flags',
         content_type='application/json',
         data=json.dumps(dict(
-            comment = "bribe",
-            createdOn = "Sun, 09 Dec 2018 13:25:47 GMT",
+            comment = "corruption",
+            createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
             image = "img",
-            incidentType = "red-flag",
-            location = "0236556",
+            incidentType = "redflag",
+            location = "video",
             status = "draft",
-            user_id = 2,
-            video = ["Image","Image"]
+            createdBy = 1,
+            video = "dsfdghgh"
         )))
         redflags.append(dict)
         self.assertEqual(response.status_code,201)
         self.assertIn("",str(response.data))
         self.assertTrue(len(redflags),2)
         self.assertNotEqual("Redflag with id is not found",str(response.data))
+    
     def test_get_redflags(self):
         response = self.client.get('/api/v1/red-flags',
         content_type='application/json',
@@ -55,7 +56,7 @@ class TestRedFlag(TestBase):
         data = json.dumps(dict(
             location = "bribe")))
         
-        # self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,200)
         self.assertTrue(self.redflag,response.data)
         self.assertIn("",str(response.data))
         self.assertNotEqual("red-flag location with that id not found",str(response.data))
@@ -65,19 +66,18 @@ class TestRedFlag(TestBase):
         data = json.dumps(dict(
             location = "muk")))
         
-        # self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,200)
         self.assertTrue(self.redflag,response.data)
         self.assertIn("",str(response.data))
         self.assertNotEqual("red-flag comment with that id not found",str(response.data))
         
 
     def test_delete_redflag(self):
-        pass
-        # response=self.client.delete('/api/v1/red-flags/1',
-        # content_type='application/json',)
-        # self.assertEqual(response.status_code,200)
-        # self.assertTrue(len(self.redflags),1)
-        # self.assertIn("Redflag has been deleted succesfully",str(response.data))
+        response=self.client.delete('/api/v1/red-flags/1',
+        content_type='application/json',)
+        self.assertEqual(response.status_code,200)
+        self.assertTrue(len(self.redflags),1)
+        self.assertIn("Redflag has been deleted succesfully",str(response.data))
 
 
     def test_delete_redflag_doesnt_exist(self):

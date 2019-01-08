@@ -9,27 +9,67 @@ class AuthTestCase(TestBase):
     """Test case for the Authentication Blueprint."""
     
     
-    def test_registration(self):
-        """Test user registration works correctly."""
-        response = self.client.post('/api/v1/register', content_type ='application/json',
-        data=self.user_reg)
-        result = json.loads(response.data.decode())
-        self.assertEqual(result['message'], "user created but not authenticated, please login first.")
-        self.assertEqual(response.status_code,201)
-        self.assertTrue(response['content_type'], "application/json")
+    def test_register_user(self,email='racheal@gmail.com',password='hello',username='RachealN'):
+        """This helps in registering a user"""
+        user_data = {
+            'email':email,
+            'password':password,
+            'username':username
+            }
+        return self.client.post('/api/v1/login',data=user_data)
     
+    def test_get_users(self):
+        response = self.client.get('/api/v1/users',
+        content_type='application/json',
+        data=json.dumps(self.users_empty))
+        self.assertEqual(len(self.users_empty),0)
+        self.assertIn("",str(response.data))
     
+    def test_get_single_user_by_id(self):
+        response = self.client.get('/api/v1/users/1',content_type='application/json',
+        data=json.dumps(self.user))
+        self.assertEqual(response.status_code,200)
+        self.assertTrue(self.user,response.data)
+
+        response = self.client.get('/api/v1/users/1',data=json.dumps(self.user))
+        self.assertEqual(response.status_code,200)
+        self.assertTrue(self.user,response.data)
+
+    def test_get_users_empty_list(self):
+        response = self.client.get('/api/v1/users',
+        content_type='application/json',
+        data=json.dumps(self.users_empty))
+        self.assertEqual(len(self.users_empty),0)
+
+    def test_delete_user(self):
+        response=self.client.delete('/api/v1/users/1',
+        content_type='application/json',)
+        self.assertEqual(response.status_code,200)
+        self.assertTrue(len(self.users),1)
+        self.assertIn("user has been deleted succesfully",str(response.data))
+
+
+    def test_delete_redflag_doesnt_exist(self):
+        response=self.client.delete('/api/v1/users/2',
+        content_type='application/json',
+        data=json.dumps(self.users_empty))
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(len(self.users_empty),0)
+        self.assertIn("user with that user_id doesnot exist",str(response.data))
+       
+        
+
     
     def test_already_registered_user(self):
         """Test that a user cannot be registered twice."""
         response = self.client.post('/api/v1/register', content_type='application/json',
-        data=self.user_reg)
+        data=self.user_data)
         self.assertEqual(response.status_code,201)
         self.assertTrue(response['content_type'], "application/json")
 
         second_response = self.client.post('/api/v1/register',content_type='application/json',
-       data=self.user_reg )
-        self.assertEqual(second_response.status_code,202)
+        data=self.user_data )
+        self.assertEqual(second_response.status_code,400)
         self.assertTrue(response['content_type'], "application/json")
         result = json.loads(second_response.data.decode())
         self.assertEqual(
@@ -39,14 +79,14 @@ class AuthTestCase(TestBase):
     def test_user_login(self):
         """Test registered user can login."""
         response = self.client.post('/api/v1/register', content_type='application/json',
-         data=self.user_reg)
+        data=self.user)
         self.assertEqual(response.status_code,201)
         login_response = self.client.post('/api/v1/login', data=self.user_data)
         result = json.loads(login_response.data.decode())
         self.assertEqual(result['message'], "You loggged in successfully")
         self.assertEqual(login_response.status_code,200)
         self.assertTrue(response['content_type'], "application/json")
-        self.assertTrue(result['access_token'])
+        self.assertTrue(result['token'])
 
     def test_non_registered_user_login(self):
         """Test non registered users cannnot login."""
@@ -62,18 +102,12 @@ class AuthTestCase(TestBase):
         self.assertTrue(response['content_type'], "application/json")
         self.assertEqual(result['message'],"invalid email or password,please try again")
 
-    def register_user(self,email='racheal@gmail.com',password='Racheal'):
-        """This helps in registering a user"""
-        user_data = {
-            'email':email,
-            'password':password
-            }
-        return self.client.post('/api/v1/login',data=user_data)
+    
 
     def test_user_status(self):
         """Test for user status"""
         response = self.client.post('/api/v1/register', content_type='application/json',
-        data=self.user_reg)
+        data=self.user)
         login_response = self.client.get('/api/v1/status', headers = dict(Authorization=' Bearer'+
         json.loads(response.data.decode()) ['auth_token']))
         data = json.loads(login_response.data.decode())

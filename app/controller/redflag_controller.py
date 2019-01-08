@@ -16,7 +16,7 @@ class RedflagController:
     def create_redflag(self):
         request_data = request.get_json()
         
-        user_id = len(redflagslist.redflags_list) + 1
+        id = len(redflagslist.redflags_list) + 1
         location = request_data.get("location")
         incidentType = "redflag"
         image = request_data.get("image")
@@ -24,23 +24,27 @@ class RedflagController:
         status = "draft"
         comment = request_data.get("comment")
 
-#validation
         if not validation_input.validate_string_input(location):
             return ({
-                "message": "location should be a string"
+                "message": "location should be a string or should not be empty"
                 }),400
         if not validation_input.validate_string_input(comment):
             return ({
-                "message": "comment should be a string"
+                "message": "comment should be a string or should not be empty"
                 }),400
 
-        if not validation_input.validate_string_input(incidentType):
+        if not validation_input.validate_string_input(image):
             return ({
-                "message": "incidentType should be a string"
+                "message": "image should be a string or should not be empty"
+                }),400
+
+        if not validation_input.validate_string_input(video):
+            return ({
+                "message": "video should be a string or should not be empty"
                 }),400
 
         
-        my_redflag = RedFlag(RedFlagBase(location,incidentType,status),image,video,comment,user_id)
+        my_redflag = RedFlag(RedFlagBase(video,incidentType,status),image,location,comment,id)
         redflagslist.create_redflag(my_redflag)
 
        
@@ -63,39 +67,39 @@ class RedflagController:
             })
        
     
-    def get_redflag_by_id(self, user_id):
+    def get_redflag_by_id(self, createdBy):
        
-        red = redflagslist.get_single_redflag_by_id(user_id)
-        if len(redflagslist.redflags_list) < 1 or red is None:
+        redflug = redflagslist.get_single_redflag_by_id(createdBy)
+        if len(redflagslist.redflags_list) < 1 or redflug is None:
             return jsonify({
-                "Error":"Redflag with id is not found"
+                "Message":"Redflag with that id is not found"
             })
         return jsonify({
-            "data": red.redflag_json()
+            "data": redflug.redflag_json()
         })
 
    
-    def patch_redflag_by_comment(self,user_id):
+    def patch_redflag_by_comment(self,createdBy):
         data = request.get_json()
-        red = redflagslist.get_single_redflag_by_id(user_id)
-        if red:
+        redflug = redflagslist.get_single_redflag_by_id(createdBy)
+        if redflug:
             comment = data["comment"]
-            red.comment = comment
+            redflug.comment = comment
             return jsonify({
                 "status" : 200,
                 "message": "red-flag comment has been updated successfully."
                 })
         return jsonify({
                 "status" : 200,
-                "message": "red-flag comment with that user_id is not found."
+                "message": "red-flag comment with that id is not found."
                 })
        
-    def patch_redflag_by_location(self,user_id):
+    def patch_redflag_by_location(self,createdBy):
         data = request.get_json()
-        red = redflagslist.get_single_redflag_by_id(user_id)
-        if red:
+        redflug = redflagslist.get_single_redflag_by_id(createdBy)
+        if redflug:
             location = data["location"]
-            red.location = location
+            redflug.location = location
             return jsonify({
                 "status" : 200,
                 "message":" red-flag location location has been updated successfully."
@@ -108,16 +112,16 @@ class RedflagController:
         
         
        
-    def delete_redflag(self,user_id):
-        red = redflagslist.get_single_redflag_by_id(user_id)
-        if red:
-            redflagslist.redflags_list.remove(red)
+    def delete_redflag(self,createdBy):
+        redflug = redflagslist.get_single_redflag_by_id(createdBy)
+        if redflug:
+            redflagslist.redflags_list.remove(redflug)
             return jsonify({
                 "messsage":"Redflag has been deleted succesfully",
                 "status":200
                })
         return jsonify({
-            "Error":"Redflag with that user_id doesnot exist",
+            "Message":"Redflag with that id doesnot exist",
             "status":200
         })
                
