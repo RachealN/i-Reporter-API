@@ -15,22 +15,6 @@ class UserController:
         
     
     def register_user(self,args):
-    
- 
-        # user = self.user_list.add_user(args)
-        # if not user:
-        #     return jsonify({
-        #         'message':'user was not created',
-        #         "status": 400
-        #     })
-           
-
-        # return jsonify({
-        #     "status": 201,
-        #     'message': 'user created successfully' ,
-        #     'users': user
-    
-        # })
         
         
         user = self.user_list.add_user(args)
@@ -63,7 +47,8 @@ class UserController:
                     })
 
             return jsonify({
-                'message':'Invalid username or password, Please try again'
+                'message':'Invalid email or password, Please try again',
+                
                 
                 })
             
@@ -99,6 +84,46 @@ class UserController:
             'message': 'success',
             'user': user
             })
+    def delete_user(self,user_id):
+        user_model = UserModel()
+        user = user_model.get_user_by_id(user_id)
+        if user:
+            user_model.users.remove(user)
+            return ({
+                "messsage":"user has been deleted succesfully",
+                "status":200
+               })
+        return ({
+            "Error":"user with that user_id doesnot exist",
+            "status":200
+        })
+
+    def update_user(self,user_id):
+        user_model =UserModel()
+        user = user_model.get_user_by_id(user_id)
+        try:
+            user = user_model.get_user_by_id(user_id)
+            if user:
+                user = user_model.users.update(user)
+                return ({
+                    "messsage":"user has been updated succesfully",
+                    "status":200
+                })
+
+            return ({
+                "Error":"user with that user_id doesnot exist",
+                "status":200
+            })
+
+        except:
+            return ({
+                'error': 'error',
+                'status':401
+            })
+            
+
+
+                
 
     
 

@@ -41,20 +41,6 @@ class UserModel:
                 return user
         return None
 
-    def get_user_by_email(self,email):
-        for user in self.users:
-            if user['email'] == email:
-                return user
-        return None
-
-# class UserCredentials:
-#     def __init__(self,email,password):
-#         self.email = email
-#         self.hashed_password = generate_password_hash(['password'],method = 'sha256')
-
-#     def password_is_valid(self,password):
-#         return check_password_hash(self.hashed_password, password)
-
     
 
 

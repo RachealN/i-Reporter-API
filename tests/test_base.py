@@ -25,3 +25,26 @@ class TestBase(unittest.TestCase):
         self.redflags_empty = []
         self.redflags=[self.redflag,self.redflag]
         
+        
+        self.user_reg = {
+            "firstname" : "Namaara",
+            "lastname" : "Racheal",
+            "othernames" : "Rapheal",
+            "email" : "racheal@gmail.com",
+            "username" : "RachealN",
+            "password" : "12345",
+            "phonenumber" : "078456572",
+            "isAdmin" : True
+            }
+        self.users_empty = []
+        self.users=[self.user_reg, self.user_reg]
+
+        self.user_data = {
+            'email':'racheal@gmail.com',
+            'password':'Racheal'
+        }
+        self.user_empty = []
+        self.users = [self.user_data,self.user_data]
+
+    
+        

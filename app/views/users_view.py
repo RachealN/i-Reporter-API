@@ -19,7 +19,18 @@ def get_user(user_id):
     return jsonify({
         'user': user_controller.get_user_by_id(user_id)
     })
-
+ 
+@Auth_blueprint.route('/users/<int:user_id>', methods = ["PUT"])
+def update_user(user_id):
+    return jsonify({
+       'user':user_controller.update_user(user_id) 
+    })
+    
+@Auth_blueprint.route('/users/<int:user_id>', methods = ["DELETE"])
+def Delete_user(user_id):
+    return jsonify({
+       'user':user_controller.delete_user(user_id) 
+    })
     
 
 @Auth_blueprint.route('/register', methods = ["POST"])
