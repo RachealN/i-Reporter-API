@@ -1,7 +1,6 @@
 from flask import request, jsonify,make_response, json
 from app.models.user_model import UserModel,users
 from app.utilities.auth import AuthHelper
-from werkzeug.security import generate_password_hash,check_password_hash
 import datetime
 import jwt
 import re
@@ -17,13 +16,10 @@ class UserController:
         
     
     def register_user(self,args):
+        """This Function  registers new_user"""
         
         
         user = self.user_list.add_user(args)
-        
-
-        user_id = user['user_id']
-        auth_token = self.auth_helper.encode_auth_token(user_id) 
         if not user or user is None:
             return jsonify({
                 'message':'user was not created',
@@ -43,6 +39,8 @@ class UserController:
 
 
     def login(self,access_token,args):
+        """This function  handles user login and access token generation."""
+        
         request_data = request.get_json()
         
         for  user in users:
@@ -63,6 +61,8 @@ class UserController:
         
 
     def get_all_users(self):
+        """This method gets all the  users."""
+
         user_model = UserModel()
 
         users = user_model.get_all_users()
@@ -78,7 +78,11 @@ class UserController:
             'message':'success'
                 })
         
+    
+    
     def get_user_by_id(self,userId):
+        """This method gets a single  user by its id."""
+        
         user_model = UserModel()
 
         user = user_model.get_user_by_id(userId)
@@ -92,7 +96,11 @@ class UserController:
             'message': 'success',
             'user': user
             })
+    
+    
     def delete_user(self,user_id):
+        """This method deletes a single  user by its id."""
+
         user_model = UserModel()
         user = user_model.get_user_by_id(user_id)
         if user:
@@ -106,7 +114,12 @@ class UserController:
             "status":200
         })
 
+    
+    
+    
     def update_user(self,user_id):
+        """This method updates  a user by its id."""
+
         user_model =UserModel()
         user = user_model.get_user_by_id(user_id)
         try:

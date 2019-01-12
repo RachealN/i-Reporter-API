@@ -24,7 +24,7 @@ class UserModel:
                 password = args['password'],
                 username = args['username'],
                 registered = str(datetime.datetime.now()),
-                isAdmin = True 
+                isAdmin = True
             )
 
         users.append(user)
