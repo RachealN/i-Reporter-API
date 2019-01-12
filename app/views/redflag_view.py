@@ -1,9 +1,8 @@
+import datetime
 from flask import Blueprint,request,json,jsonify,flash
 from app.models.redflag_model import RedFlag
 from app.models.redflag_model import RedFlag,RedFlagBase,RedflagData
-import datetime
 from app.controller.redflag_controller import RedflagController
-import re
 from app.utilities.auth import AuthHelper
 
 
@@ -14,6 +13,7 @@ redflags = RedflagController()
 required = AuthHelper()
 
 
+"""Endpoint for the index page"""
 @redflag_blueprint.route('/')
 def index():
     response = {
@@ -23,42 +23,84 @@ def index():
     }
     return jsonify(response)
 
+
+"""Endpoint for creating a redflag"""
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
-@required.user_auth_required
-def create_redflag():
-    return jsonify({'Data':RedflagController.create_redflag(redflags)}),201
+@required.token_required
+def create_redflag(current_user):
+    current_user=current_user.get('sub')
+    if current_user.get('isAdmin') is False:
+        return jsonify({
+            'message':'You  cannot perform this function'
+        }),401
+    else:
+        return jsonify({'Data':RedflagController.create_redflag(redflags)}),201
 
     
-
+"""Endpoint for getting all redflags"""
 @redflag_blueprint.route('/red-flags', methods = ['GET'])
-@required.user_auth_required
-def get_redflags():
-    return redflags.get_redflags(),200
-    
-   
-@redflag_blueprint.route('/red-flags/<int:user_id>',methods = ['GET'])
-@required.user_auth_required
-def get_single_redflag_by_id(user_id):
-   return redflags.get_redflag_by_id(user_id),200
-    
-
-@redflag_blueprint.route('/red-flags/<int:user_id>/location',methods = ['PATCH'])
-@required.user_auth_required
-def edit_redflag_location(user_id):
-    return redflags.patch_redflag_by_location(user_id),200
-    
+@required.token_required
+def get_redflags(current_user):
+    current_user=current_user.get('sub')
+    if current_user.get('isAdmin') is False:
+        return jsonify({
+            'message':'You  cannot perform this function'
+        }),401
+    else:
+        return redflags.get_redflags(),200
     
 
-@redflag_blueprint.route('/red-flags/<int:user_id>/comment',methods = ['PATCH'])
-@required.user_auth_required
-def edit_redflag_comment(user_id):
-    return redflags.patch_redflag_by_comment(user_id),200
+"""Endpoint for getting a single redflag""" 
+@redflag_blueprint.route('/red-flags/<int:id>',methods = ['GET'])
+@required.token_required 
+def get_single_redflag_by_id(current_user,id):
+    current_user=current_user.get('sub')
+    if current_user.get('isAdmin') is False:
+        return jsonify({
+            'message':'You  cannot perform this function'
+        }),401
+    else:
+        return redflags.get_redflag_by_id(id),200
+    
+
+
+"""Endpoint for editing  a location"""
+@redflag_blueprint.route('/red-flags/<int:id>/location',methods = ['PATCH'])
+@required.token_required
+def edit_redflag_location(current_user,id):
+    current_user=current_user.get('sub')
+    if current_user.get('isAdmin') is False:
+        return jsonify({
+            'message':'You  cannot perform this function'
+        }),401
+    else:
+        return redflags.patch_redflag_by_location(id),200
     
     
-@redflag_blueprint.route('/red-flags/<int:user_id>',methods = ['DELETE'])
-@required.user_auth_required
-def delete_redflag(user_id):
-    return redflags.delete_redflag(user_id),200
+"""Endpoint for editing  a comment"""
+@redflag_blueprint.route('/red-flags/<int:id>/comment',methods = ['PATCH'])
+@required.token_required
+def edit_redflag_comment(current_user,id):
+    current_user=current_user.get('sub')
+    if current_user.get('isAdmin') is False:
+        return jsonify({
+            'message':'You  cannot perform this function'
+        }),401
+    else:
+        return redflags.patch_redflag_by_comment(id),200
+    
+
+"""Endpoint for  deleting a redflag"""    
+@redflag_blueprint.route('/red-flags/<int:id>',methods = ['DELETE'])
+@required.token_required
+def delete_redflag(current_user,id):
+    current_user=current_user.get('sub')
+    if current_user.get('isAdmin') is False:
+        return jsonify({
+            'message':'You  cannot perform this function'
+        }),401
+    else:
+        return redflags.delete_redflag(id),200
    
 
 
