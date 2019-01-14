@@ -1,14 +1,14 @@
 from flask import request,jsonify
-from app.models.redflag_model import RedFlagBase,RedFlag,RedflagData
+from app.models.redflag_model import IncidentsBase,Incidents, IncidentsData
 from app.validations import Validator
 import re
 
 
 
-redflagslist = RedflagData()
+redflagslist =  IncidentsData()
 validation_input = Validator()
 
-class RedflagController:
+class IncidentController:
     def __init__(self):
         pass
 
@@ -49,7 +49,7 @@ class RedflagController:
                 }),400
 
         
-        my_redflag = RedFlag(RedFlagBase(video,incidentType,status),image,location,comment,id)
+        my_redflag = Incidents(IncidentsBase(video,incidentType,status),image,location,comment,id)
         redflagslist.create_redflag(my_redflag)
 
        

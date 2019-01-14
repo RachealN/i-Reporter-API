@@ -2,7 +2,7 @@ from flask import abort,jsonify
 import datetime
 
 
-class RedFlagBase:
+class IncidentsBase:
     def __init__(self,video,incidentType, status):
         self.video = video
         self.incidentType = incidentType
@@ -10,7 +10,7 @@ class RedFlagBase:
         self.createdOn = datetime.datetime.now()
        
 
-class RedFlag:
+class Incidents:
     def __init__(self,base,image,location,comment,id):
         self.base = base
         self.image = image
@@ -32,7 +32,7 @@ class RedFlag:
         }
 
 
-class RedflagData:
+class IncidentsData:
     """This class defines the redflag data."""
 
     def __init__(self):
