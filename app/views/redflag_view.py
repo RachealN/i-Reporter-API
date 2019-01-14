@@ -1,6 +1,5 @@
 import datetime
-from flask import Blueprint,request,json,jsonify,flash
-from app.models.redflag_model import RedFlag
+from flask import Blueprint,request,json,jsonify
 from app.models.redflag_model import RedFlag,RedFlagBase,RedflagData
 from app.controller.redflag_controller import RedflagController
 from app.utilities.auth import AuthHelper

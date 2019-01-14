@@ -29,9 +29,9 @@ class RedflagController:
         status = "draft"
         comment = request_data.get("comment")
 
-        if not validation_input.validate_string_input(location):
+        if not validation_input.validate_integer_input(location):
             return ({
-                "message": "location should be a string or should not be empty"
+                "message": "location should be an integer or should not be empty"
                 }),400
         if not validation_input.validate_string_input(comment):
             return ({
@@ -97,8 +97,10 @@ class RedflagController:
         """function to edit comment
         :returns success message"""
 
+        
         data = request.get_json()
         redflug = redflagslist.get_single_redflag_by_id(id)
+        
         if redflug:
             comment = data["comment"]
             redflug.comment = comment
@@ -110,6 +112,8 @@ class RedflagController:
                 "status" : 200,
                 "message": "red-flag comment with that id is not found."
                 })
+
+        
        
     def patch_redflag_by_location(self,id):
 
