@@ -62,8 +62,8 @@ class RedflagController:
     
     
     def get_redflags(self):
-        """function to get all redflags
-        :return redflags list:"""
+        """function to get all redflags"""
+        
     
 
 
@@ -79,8 +79,8 @@ class RedflagController:
        
     
     def get_redflag_by_id(self, id):
-        """function to get a single redflag
-        :returns redflag"""
+        """function to get a single redflag"""
+       
        
         redflug = redflagslist.get_single_redflag_by_id(id)
         if len(redflagslist.redflags_list) < 1 or redflug is None:
@@ -117,8 +117,8 @@ class RedflagController:
        
     def patch_redflag_by_location(self,id):
 
-        """function to edit location
-        :returns a success message"""
+        """function to edit location"""
+       
 
         data = request.get_json()
         redflug = redflagslist.get_single_redflag_by_id(id)
@@ -138,8 +138,8 @@ class RedflagController:
         
        
     def delete_redflag(self,user_id):
-        """function to delete a redflag
-        :returns success message"""
+        """function to delete a redflag"""
+        
         redflug = redflagslist.get_single_redflag_by_id(user_id)
         if redflug:
             redflagslist.redflags_list.remove(redflug)
