@@ -4,6 +4,7 @@ from app.utilities.auth import AuthHelper
 
 
 Auth_blueprint = Blueprint("Auth_blueprint", __name__)
+
 user_controller = UserController()
 required = AuthHelper()
 

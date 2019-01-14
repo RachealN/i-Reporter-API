@@ -5,7 +5,7 @@ import app
 class Config(object):
     DEBUG = False
     TESTING = False
-    SECRET_KEY = 'thisismysecretkey'
+    SECRET_KEY = 'thisismyireportersecretkey'
 
 
 class DevelopmentConfig(Config):

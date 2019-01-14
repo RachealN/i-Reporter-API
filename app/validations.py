@@ -20,7 +20,7 @@ class Validator:
                         return False
                 return True
 
-        def validate_digits_input(self,number):
+        def validate_integer_input(self,number):
                 numbers = re.compile('[0-9]')
                 if not numbers.match(number) or number.isspace():
                         return False

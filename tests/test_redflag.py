@@ -50,12 +50,12 @@ class TestRedFlag(TestBase):
         data=json.dumps(dict(
             comment = "corruption",
             createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
-            image = "img",
+            image = "https://postimage/image1.jng",
             incidentType = "redflag",
-            location = "video",
+            location = "6554.7898",
             status = "draft",
             createdBy = 1,
-            video = "dsfdghgh"
+            video = "https://postvideo/Video5.jng"
         )))
         redflags.append(dict)
         self.assertEqual(response.status_code,201)

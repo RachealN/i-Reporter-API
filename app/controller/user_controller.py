@@ -1,4 +1,4 @@
-from flask import request, jsonify,make_response, json
+from flask import request, jsonify, json
 from app.models.user_model import UserModel,users
 from app.utilities.auth import AuthHelper
 import datetime

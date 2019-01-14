@@ -29,9 +29,9 @@ class RedflagController:
         status = "draft"
         comment = request_data.get("comment")
 
-        if not validation_input.validate_string_input(location):
+        if not validation_input.validate_integer_input(location):
             return ({
-                "message": "location should be a string or should not be empty"
+                "message": "location should be an integer or should not be empty"
                 }),400
         if not validation_input.validate_string_input(comment):
             return ({
@@ -62,8 +62,8 @@ class RedflagController:
     
     
     def get_redflags(self):
-        """function to get all redflags
-        :return redflags list:"""
+        """function to get all redflags"""
+        
     
 
 
@@ -79,8 +79,8 @@ class RedflagController:
        
     
     def get_redflag_by_id(self, id):
-        """function to get a single redflag
-        :returns redflag"""
+        """function to get a single redflag"""
+       
        
         redflug = redflagslist.get_single_redflag_by_id(id)
         if len(redflagslist.redflags_list) < 1 or redflug is None:
@@ -97,8 +97,10 @@ class RedflagController:
         """function to edit comment
         :returns success message"""
 
+        
         data = request.get_json()
         redflug = redflagslist.get_single_redflag_by_id(id)
+        
         if redflug:
             comment = data["comment"]
             redflug.comment = comment
@@ -110,11 +112,13 @@ class RedflagController:
                 "status" : 200,
                 "message": "red-flag comment with that id is not found."
                 })
+
+        
        
     def patch_redflag_by_location(self,id):
 
-        """function to edit location
-        :returns a success message"""
+        """function to edit location"""
+       
 
         data = request.get_json()
         redflug = redflagslist.get_single_redflag_by_id(id)
@@ -134,8 +138,8 @@ class RedflagController:
         
        
     def delete_redflag(self,user_id):
-        """function to delete a redflag
-        :returns success message"""
+        """function to delete a redflag"""
+        
         redflug = redflagslist.get_single_redflag_by_id(user_id)
         if redflug:
             redflagslist.redflags_list.remove(redflug)

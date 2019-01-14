@@ -1,13 +1,10 @@
 from flask import request,jsonify
-from app.models.user_model import UserModel
-import os 
 import datetime
 import jwt
 from functools import wraps
 import app
 
 
-uzer = UserModel()
 class AuthHelper:
     
     def __init__(self):
@@ -21,7 +18,7 @@ class AuthHelper:
                 'sub': user,
                 'exp': datetime.datetime.now() + datetime.timedelta(minutes=30)},
                     self.secret_key).decode('utf-8'),
-                
+               
         return payload
 
     
@@ -50,8 +47,6 @@ class AuthHelper:
                 current_user = jwt.decode(payload,self.secret_key)
                
                 
-              
-               
             except:
                 return jsonify({'message':'Token is invalid'}),401
             return f( current_user,*args,**kwargs)
