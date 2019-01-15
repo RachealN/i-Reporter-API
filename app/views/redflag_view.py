@@ -13,6 +13,7 @@ required = AuthHelper()
 
 
 """Endpoint for the index page"""
+
 @redflag_blueprint.route('/')
 def index():
     response = {
@@ -24,6 +25,7 @@ def index():
 
 
 """Endpoint for creating a redflag"""
+
 @redflag_blueprint.route('/red-flags', methods = ["POST"])
 @required.token_required
 def create_redflag(current_user):
@@ -37,6 +39,7 @@ def create_redflag(current_user):
 
     
 """Endpoint for getting all redflags"""
+
 @redflag_blueprint.route('/red-flags', methods = ['GET'])
 @required.token_required
 def get_redflags(current_user):
@@ -50,6 +53,7 @@ def get_redflags(current_user):
     
 
 """Endpoint for getting a single redflag""" 
+
 @redflag_blueprint.route('/red-flags/<int:id>',methods = ['GET'])
 @required.token_required 
 def get_single_redflag_by_id(current_user,id):
@@ -76,7 +80,9 @@ def edit_redflag_location(current_user,id):
         return redflags.patch_redflag_by_location(id),200
     
     
+
 """Endpoint for editing  a comment"""
+
 @redflag_blueprint.route('/red-flags/<int:id>/comment',methods = ['PATCH'])
 @required.token_required
 def edit_redflag_comment(current_user,id):
