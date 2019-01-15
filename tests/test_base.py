@@ -40,9 +40,9 @@ class TestBase(unittest.TestCase):
         self.users=[self.user,self.user]
 
     def tearDown(self):
-       self.redflags = None
-       self.users = None
-       self.app = None
+       self.redflags.clear()
+       self.users.clear()
+       
         
 
        
