@@ -1,14 +1,14 @@
 import datetime
 from flask import Blueprint,request,json,jsonify
-from app.models.redflag_model import Incidents,IncidentsBase,IncidentsData
-from app.controller.redflag_controller import IncidentController
+from app.models.redflag_model import RedFlag,RedFlagBase,RedflagData
+from app.controller.redflag_controller import RedflagController
 from app.utilities.auth import AuthHelper
 
 
     
 
 redflag_blueprint = Blueprint("redflag_blueprint", __name__)
-redflags = IncidentController
+redflags = RedflagController()
 required = AuthHelper()
 
 
@@ -33,7 +33,7 @@ def create_redflag(current_user):
             'message':'You  cannot perform this function'
         }),401
     else:
-        return jsonify({'Data':IncidentController.create_redflag(redflags)}),201
+        return jsonify({'Data':RedflagController.create_redflag(redflags)}),201
 
     
 """Endpoint for getting all redflags"""
