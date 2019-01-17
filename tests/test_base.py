@@ -35,8 +35,9 @@ class TestBase(unittest.TestCase):
             othernames = "heloo",
             email = "odetah@gmail.com",
             username = "Ahabwe",
-            password  = "12345",
-            phonenumber = "0786576572"
+            password = "123588856",
+            phonenumber = "0786576572",
+            isAdmin = "False"
         )  
         self.users_empty = []
         self.users=[self.user,self.user]
@@ -44,74 +45,10 @@ class TestBase(unittest.TestCase):
    
         self.credential = dict(
             email = "odetah@gmail.com",
-            password = "12345"
+            password = "123588856",
         )
         self.credentials_empty = []
         self.credentials=[self.credential,self.credential]
-
-    # def register_user(self):
-    #     newuser={
-    #             "firstname":"okello",
-    #             "lastname":"opio",
-    #             "othernames":"heloo",
-    #             "email":"odetah@gmail.com",
-    #             "username":"Ahabwe",
-    #             "password":"12345",
-    #             "phonenumber":"0786576572"
-
-
-    #                 }
-    #     response = self.client.post('/api/v1/register',
-    #             content_type='application/json',
-    #             data=json.dumps(newuser))
-        
-
-    # def login_user(self):
-    #     self.register_user()
-
-    #     credentials={
-    #         "email":"odetah@gmail.com",
-    #         "password":"12345"
-    #         }
-    #     response = self.client.post('/api/v1/login',
-    #     content_type='application/json',
-    #     data=json.dumps(credentials))
-
-    #     token=json.loads(response.data.decode())
-    #     token=token.get('Token')[0]
-
-    # def access_token(self,email='odetah@gmail.com',password='12345'):
-        
-    #     response = self.client.get()
-    #     return json.loads(response.data.decode())['token']
-
-    
-    # def create_redflag(self):
-    #     self.login_user()
-        
-    #     token=json.loads(response.data.decode())
-    #     token=token.get('Token')[0]
-
-    #     redflags = []
-    #     response = self.client.post('/api/v1/red-flags',
-    #     content_type='application/json',headers=dict(Authorization='Bearer '+token),
-    #     data=json.dumps(dict(
-    #         comment = "corruption",
-    #         createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
-    #         image = "https://postimage/image1.jng",
-    #         incidentType = "redflag",
-    #         location = "6554.7898",
-    #         status = "draft",
-    #         createdBy = 1,
-    #         video = "https://postvideo/Video5.jng"
-    #     )))
-    #     redflags.append(dict)
-        
-    # def get_token(self,  email = "odetah@gmail.com", password="12345"):
-        
-    #     response = self.login_user(email, password)
-    #     return token=json.loads(response.data.decode())
-
 
     
 

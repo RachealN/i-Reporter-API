@@ -19,47 +19,30 @@ class TestRedFlag(TestBase):
     def test_created_redflag(self):
         """Test API can create a redflag(POST request)"""
 
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-
-                    }
-
         
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+    
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
-        token=json.loads(response.data.decode())
-        token=token.get('Token')[0]
+        token = json.loads(response.data.decode()),
+        token = token.get('Token')[0]
+       
+        
 
         redflags = []
         response = self.client.post('/api/v1/red-flags',
-        content_type='application/json',headers=dict(Authorization='Bearer '+token),
+        content_type='application/json',headers=dict(Authorization= 'Bearer' + token),
         data=json.dumps(dict(
-            comment = "corruption",
-            createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
-            image = "https://postimage/image1.jng",
-            incidentType = "redflag",
-            location = "6554.7898",
-            status = "draft",
-            createdBy = 1,
-            video = "https://postvideo/Video5.jng"
+            self.redflag
         )))
+        
         redflags.append(dict)
         self.assertEqual(response.status_code,201)
         self.assertIn("",str(response.data))
@@ -69,27 +52,17 @@ class TestRedFlag(TestBase):
     
     def test_get_redflags(self):
         """Test API can get redflags (GET request)."""
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
 
-                    }
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -112,27 +85,15 @@ class TestRedFlag(TestBase):
     def test_get_single_redflag_by_id(self):
         """Test API can get a single redflag by using it's id."""
 
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -148,27 +109,16 @@ class TestRedFlag(TestBase):
 
     def test_edit_redflag_location(self):
         """Test API can edit an existing location. (PATCH request)"""
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -182,14 +132,7 @@ class TestRedFlag(TestBase):
         response = self.client.post('/api/v1/red-flags',
         content_type='application/json',headers=dict(Authorization='Bearer '+token),
         data=json.dumps(dict(
-            comment = "corruption",
-            createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
-            image = "https://postimage/image1.jng",
-            incidentType = "redflag",
-            location = "6554.7898",
-            status = "draft",
-            createdBy = 1,
-            video = "https://postvideo/Video5.jng"
+            self.redflag
         )))
         redflags.append(dict)
         
@@ -204,27 +147,15 @@ class TestRedFlag(TestBase):
     def test_edit_redflag_comment(self):
         """Test API can edit an existing comment. (PATCH request)"""
 
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -233,14 +164,7 @@ class TestRedFlag(TestBase):
         response = self.client.post('/api/v1/red-flags',
         content_type='application/json',headers=dict(Authorization='Bearer '+token),
         data=json.dumps(dict(
-            comment = "corruption",
-            createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
-            image = "https://postimage/image1.jng",
-            incidentType = "redflag",
-            location = "6554.7898",
-            status = "draft",
-            createdBy = 1,
-            video = "https://postvideo/Video5.jng"
+            self.redflag
         )))
         redflags.append(dict)
         
@@ -258,27 +182,16 @@ class TestRedFlag(TestBase):
 
     def test_delete_redflag(self):
         """Test API can delete an existing redflag. (DELETE request)."""
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -287,32 +200,21 @@ class TestRedFlag(TestBase):
         content_type='application/json',headers=dict(Authorization='Bearer '+token))
         self.assertEqual(response.status_code,200)
         self.assertTrue(len(self.redflags),1)
-        self.assertIn("red-flag record has been deleted",str(response.data))
+        self.assertIn("Redflag with that id doesnot exist",str(response.data))
 
 
     def test_delete_redflag_doesnt_exist(self):
         """Test API can delete non_existing redflag. (DELETE request)."""
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -324,7 +226,6 @@ class TestRedFlag(TestBase):
         data=json.dumps(self.redflags_empty)
         self.assertEqual(response.status_code,200)
         self.assertEqual(len(self.redflags_empty),0)
-        # self.assertIn("Redflag with that user_id doesnot exist",str(response.data))
        
         
 

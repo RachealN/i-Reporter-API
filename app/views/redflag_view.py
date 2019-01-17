@@ -31,7 +31,7 @@ def index():
 def create_redflag(current_user):
     current_user=current_user.get('sub')
     print(current_user.get('isAdmin'))
-    if current_user.get('isAdmin') is not 'True':
+    if current_user.get('isAdmin') is  'False':
         return jsonify({
             'message':'You  cannot perform this function'
         }),401

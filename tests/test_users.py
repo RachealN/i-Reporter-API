@@ -13,13 +13,7 @@ class AuthTestCase(TestBase):
         response = self.client.post('/api/v1/register',
         content_type='application/json',
         data=json.dumps(dict(
-                firstname = "okello",
-                lastname = "opio",
-                othernames = "heloo",
-                email = "odetah@gmail.com",
-                username = "Ahabwe",
-                password  = "12345",
-                phonenumber = "0786576572"
+                self.user
         )))
         users.append(dict)
         self.assertEqual(response.status_code,201)
@@ -29,27 +23,17 @@ class AuthTestCase(TestBase):
 
     
     def test_login_user(self):
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
+        """Test API can login a user"""
 
-                    }
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -58,27 +42,17 @@ class AuthTestCase(TestBase):
     
     
     def test_get_users(self):
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
+        """Test API can get all users"""
 
-                    }
+        self.user            
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -91,27 +65,17 @@ class AuthTestCase(TestBase):
     
     
     def test_get_single_user_by_id(self):
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        """Test API can get user by id"""
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -120,7 +84,7 @@ class AuthTestCase(TestBase):
         response = self.client.get('/api/v1/users/1',
         content_type='application/json',headers=dict(Authorization='Bearer '+token),
         data=json.dumps(self.user))
-        # self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,200)
         self.assertTrue(self.user,response.data)
         self.assertNotEqual("user with that id is not found",str(response.data))
     
@@ -128,27 +92,17 @@ class AuthTestCase(TestBase):
        
 
     def test_get_users_empty_list(self):
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        """Test API cannot get empty list of users"""
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -158,28 +112,19 @@ class AuthTestCase(TestBase):
         data=json.dumps(self.users_empty))
         self.assertEqual(len(self.users_empty),0)
 
+    
     def test_delete_user(self):
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        """Test API can delete a user"""
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -191,27 +136,17 @@ class AuthTestCase(TestBase):
         self.assertNotEqual("user with that id doesnt exist",str(response.data))
     
     def test_delete_redflag_doesnt_exist(self):
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        """Test API cannot delete user that doesnot exist"""
+        
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
-        credentials={
-        "email":"odetah@gmail.com",
-        "password":"12345"
-        }
+        self.credential
         response = self.client.post('/api/v1/login',
         content_type='application/json',
-        data=json.dumps(credentials))
+        data=json.dumps(self.credential))
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
@@ -229,19 +164,10 @@ class AuthTestCase(TestBase):
     def test_non_registered_user_login(self):
         """Test non registered users cannnot login."""
 
-        newuser={
-                "firstname":"okello",
-                "lastname":"opio",
-                "othernames":"heloo",
-                "email":"odetah@gmail.com",
-                "username":"Ahabwe",
-                "password":"12345",
-                "phonenumber":"0786576572"
-
-                    }
+        self.user
         response = self.client.post('/api/v1/register',
         content_type='application/json',
-        data=json.dumps(newuser))
+        data=json.dumps(self.user))
 
         not_a_user = {
             'email':'not_a_user@hmail.com',
@@ -252,14 +178,11 @@ class AuthTestCase(TestBase):
         response = self.client.post('/api/v1/login',
         content_type='application/json',
         data=json.dumps(not_a_user))
-
         
-        
-        # self.assertEqual(response.status_code,401)
         self.assertNotEqual("Invalid email or password, Please try again",str(response.data))
         self.assertNotEqual("Not registered,please register first before logging in",str(response.data))
     
-    
+
     
 
     
