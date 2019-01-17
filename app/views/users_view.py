@@ -1,12 +1,14 @@
 from flask import Blueprint,request,json,jsonify
 from app.controller.user_controller import UserController
 from app.utilities.auth import AuthHelper
+from app.validations import Validator
 
 
 Auth_blueprint = Blueprint("Auth_blueprint", __name__)
 
 user_controller = UserController()
 required = AuthHelper()
+validate =Validator()
 
 
 
@@ -86,7 +88,36 @@ def Delete_user(current_user,user_id):
 def register_user():
     """Handle POST request for this Endpoint. Url ---> /api/v1/register"""
     
-    request_data = request.get_json()
+    request_data = request.get_json(force=True)
+
+    email = request_data.get('email')
+    username = request_data.get('username')
+    password = request_data.get('password')
+    isAdmin = request_data.get('isAdmin')
+    phonenumber = request_data.get('phonenumber')
+
+    validate_email = Validator().validate_email(email)
+    validate_username = Validator().validate_string_input(username)
+    validate_password = Validator().validate_password(password)
+    validate_isAdmin = Validator().validate_string_input(isAdmin)
+    validate_phonenumber = Validator().validate_integer_input(phonenumber)
+    
+    if not validate_email:
+        return jsonify({'message':'Email is Invalid'}),400
+
+    if not validate_username:
+        return jsonify ({'message': 'Username is incorrect'}),400
+
+    if not validate_password:
+        return jsonify ({'message':'Incorrect password and shouldnot be less than 6 characters'}),400
+
+    if not validate_isAdmin:
+        return jsonify({'message':'isAdmin should be  a string'}),400
+
+    if not validate_phonenumber:
+        return jsonify({'message':'phonenumber should be integers'}),400
+
+
     return user_controller.register_user(request_data),201
     
     

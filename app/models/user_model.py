@@ -23,7 +23,7 @@ class UserModel:
                 password = args['password'],
                 username = args['username'],
                 registered = str(datetime.datetime.now()),
-                isAdmin = True
+                isAdmin = args['isAdmin']
             )
 
         users.append(user)

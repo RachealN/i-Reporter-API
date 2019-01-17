@@ -30,7 +30,8 @@ def index():
 @required.token_required
 def create_redflag(current_user):
     current_user=current_user.get('sub')
-    if current_user.get('isAdmin') is False:
+    print(current_user.get('isAdmin'))
+    if current_user.get('isAdmin') is not 'True':
         return jsonify({
             'message':'You  cannot perform this function'
         }),401
@@ -44,7 +45,7 @@ def create_redflag(current_user):
 @required.token_required
 def get_redflags(current_user):
     current_user=current_user.get('sub')
-    if current_user.get('isAdmin') is False:
+    if current_user.get('isAdmin') is 'False':
         return jsonify({
             'message':'You  cannot perform this function'
         }),401
@@ -58,7 +59,7 @@ def get_redflags(current_user):
 @required.token_required 
 def get_single_redflag_by_id(current_user,id):
     current_user=current_user.get('sub')
-    if current_user.get('isAdmin') is False:
+    if current_user.get('isAdmin') is 'False':
         return jsonify({
             'message':'You  cannot perform this function'
         }),401

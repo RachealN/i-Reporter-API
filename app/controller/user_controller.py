@@ -8,15 +8,15 @@ import re
 class UserController:
     user_list = UserModel()
     auth_helper = AuthHelper()
-    
-
-
+  
+   
     def __init__(self):
         self.users = []
         
     
     def register_user(self,args):
         """This Function  registers new_user"""
+
         
         
         user = self.user_list.add_user(args)
