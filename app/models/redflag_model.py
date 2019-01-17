@@ -53,13 +53,3 @@ class RedflagData:
 
    
     
-
-
-
-
-
-
-
-
-
-    

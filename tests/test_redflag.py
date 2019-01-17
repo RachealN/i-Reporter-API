@@ -28,7 +28,10 @@ class TestRedFlag(TestBase):
                 "password":"12345",
                 "phonenumber":"0786576572"
 
+
                     }
+
+        
         response = self.client.post('/api/v1/register',
         content_type='application/json',
         data=json.dumps(newuser))
@@ -62,6 +65,7 @@ class TestRedFlag(TestBase):
         self.assertIn("",str(response.data))
         self.assertTrue(len(redflags),2)
         self.assertNotEqual("Redflag not created",str(response.data))
+        
     
     def test_get_redflags(self):
         """Test API can get redflags (GET request)."""
@@ -169,13 +173,28 @@ class TestRedFlag(TestBase):
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
         
-        response = self.client.patch('/api/v1/red-flags/<int:user_id>/location',
+        response = self.client.patch('/api/v1/red-flags/1/location',
         content_type='application/json',headers=dict(Authorization='Bearer '+token),
         data = json.dumps(dict(
-            location = "bribe")))
+            location = "86574.7686")))
+
+        redflags = []
+        response = self.client.post('/api/v1/red-flags',
+        content_type='application/json',headers=dict(Authorization='Bearer '+token),
+        data=json.dumps(dict(
+            comment = "corruption",
+            createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
+            image = "https://postimage/image1.jng",
+            incidentType = "redflag",
+            location = "6554.7898",
+            status = "draft",
+            createdBy = 1,
+            video = "https://postvideo/Video5.jng"
+        )))
+        redflags.append(dict)
         
 
-        # self.assertEqual(response.status_code,201)
+        self.assertEqual(response.status_code,201)
         self.assertIn("",str(response.data))
         self.assertTrue(self.redflag,response.data)
         self.assertNotEqual("red-flag location with that id not found",str(response.data))
@@ -209,13 +228,28 @@ class TestRedFlag(TestBase):
 
         token=json.loads(response.data.decode())
         token=token.get('Token')[0]
+
+        redflags = []
+        response = self.client.post('/api/v1/red-flags',
+        content_type='application/json',headers=dict(Authorization='Bearer '+token),
+        data=json.dumps(dict(
+            comment = "corruption",
+            createdOn = "Sun, 06 Jan 2019 22:03:35 GMT",
+            image = "https://postimage/image1.jng",
+            incidentType = "redflag",
+            location = "6554.7898",
+            status = "draft",
+            createdBy = 1,
+            video = "https://postvideo/Video5.jng"
+        )))
+        redflags.append(dict)
         
-        response = self.client.patch('/api/v1/red-flags/<int:user_id>/comment',
+        response = self.client.patch('/api/v1/red-flags/1/comment',
         content_type='application/json',headers=dict(Authorization='Bearer '+token),
         data = json.dumps(dict(
-            location = "muk")))
+            comment = "rape")))
         
-        # self.assertEqual(response.status_code,201)
+        self.assertEqual(response.status_code,200)
         self.assertTrue(self.redflag,response.data)
         self.assertIn("",str(response.data))
         self.assertNotEqual("red-flag comment with that id not found",str(response.data))

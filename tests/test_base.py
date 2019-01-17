@@ -1,6 +1,7 @@
 import unittest
 from  app.views import redflag_view
 from app import initialize_app
+import json
 
 
 
@@ -42,8 +43,8 @@ class TestBase(unittest.TestCase):
     def tearDown(self):
        self.redflags.clear()
        self.users.clear()
-       
-        
 
-       
-        
+
+    
+
+    

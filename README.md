@@ -20,13 +20,25 @@ Make sure you python3 and postman installed on your computer.
 
 ```Vs Code```   or any other text editor of your choice
 
+# create a virtual environment
+work in the virtual environment. Below is a command on how to create virtual environment for windows
+
+```virtualenv venv ```
+
+# Activate the virtaul environment 
+By running this command 
+```cd venv/scripts/activate```
+
+# Install the dependencies in the requirements.txt file using pip
+```pip install -r requirements.txt```
+
 # Running the project
 
 To run this project
 
 Navigate to the directory where the project was cloned and run this command
 
-```python3 run.py```
+```python run.py```
 
 # Project link
 
@@ -43,6 +55,58 @@ https://github.com/RachealN/i-Reporter-API/tree/develop
 ○	Edit a specific red-flag record
 
 ○	Delete a red-flag record
+
+
+#API Endpoints
+
+| Methods | Endpoints           |Functionality|
+----------|---------------------|--------------|
+|   POST    /api/v1/red-flags   |  Create a red-flag |
+_____________________________________________________
+|   GET   | /api/v1/red-flags    |  Get all redflags |
+____________________________________________________
+   GET   | /api/v1/red-flags/1    | Get a single redflag |
+____________________________________________________
+|   PATCH  | /api/v1/red-flags/1/comment    |  Update comment |
+____________________________________________________
+|   PATCH  | /api/v1/red-flags/1/location    |  Update location |
+____________________________________________________
+|   DELETE  |/api/v1/red-flags/1   |  Delete a redflag |
+____________________________________________________
+
+|   POST  |/api/v1/register   |  register a user |
+____________________________________________________
+
+|   POST  |/api/v1/login   | login a user |
+____________________________________________________
+
+|   GET  |/api/v1/users   |  Get all users |
+____________________________________________________
+|   GET  |/api/v1/users/1   |  Get a single user |
+
+____________________________________________________
+
+|   UPDATE  |/api/v1/users/1   |  Update a user |
+____________________________________________________
+
+|   DELETE  |/api/v1/users/1   |  Delete a user |
+____________________________________________________
+
+
+# How to run tests
+
+Run this command
+
+```py.test --cov=app tests/```
+
+or this to run tests without coverage
+
+```pytest```
+
+#Link to Heroku
+
+```https://dashboard.heroku.com/apps/ireportercorruption```
+
 
 # Author
 

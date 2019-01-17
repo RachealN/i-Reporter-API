@@ -142,11 +142,3 @@ class UserController:
                 'status':401
             })
             
-
-
-                
-
-    
-
-
-    
