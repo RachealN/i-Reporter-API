@@ -60,38 +60,19 @@ https://github.com/RachealN/i-Reporter-API/tree/develop
 #API Endpoints
 
 | Methods | Endpoints           |Functionality|
-----------|---------------------|--------------|
-|   POST    /api/v1/red-flags   |  Create a red-flag |
-_____________________________________________________
-|   GET   | /api/v1/red-flags    |  Get all redflags |
-____________________________________________________
-   GET   | /api/v1/red-flags/1    | Get a single redflag |
-____________________________________________________
-|   PATCH  | /api/v1/red-flags/1/comment    |  Update comment |
-____________________________________________________
-|   PATCH  | /api/v1/red-flags/1/location    |  Update location |
-____________________________________________________
-|   DELETE  |/api/v1/red-flags/1   |  Delete a redflag |
-____________________________________________________
-
-|   POST  |/api/v1/register   |  register a user |
-____________________________________________________
-
-|   POST  |/api/v1/login   | login a user |
-____________________________________________________
-
-|   GET  |/api/v1/users   |  Get all users |
-____________________________________________________
-|   GET  |/api/v1/users/1   |  Get a single user |
-
-____________________________________________________
-
-|   UPDATE  |/api/v1/users/1   |  Update a user |
-____________________________________________________
-
-|   DELETE  |/api/v1/users/1   |  Delete a user |
-____________________________________________________
-
+----------|---------------------|-------------------------------|
+|  POST| /api/v1/red-flags   |  Create a red-flag            ||          
+|  GET | /api/v1/red-flags    |  Get all redflags            ||          
+   GET | /api/v1/red-flags/1    | Get a single redflag        | |          
+|  PATCH  | /api/v1/red-flags/1/comment    |  Update comment   | |           
+|  PATCH  | /api/v1/red-flags/1/location    |  Update location | |           
+|  DELETE  |/api/v1/red-flags/1   |  Delete a redflag          | |           
+|  POST  |/api/v1/register   |  register a user |              ||           
+|  POST  |/api/v1/login   | login a user |                     ||            
+|  GET  |/api/v1/users   |  Get all users |                    ||           
+|  GET  |/api/v1/users/1   |  Get a single user |              | |            
+|  DELETE  |/api/v1/users/1   |  Delete a user |               |
+ 
 
 # How to run tests
 

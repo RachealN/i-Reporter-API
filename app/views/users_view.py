@@ -28,11 +28,6 @@ def get_all_users(current_user):
 
 
 
-
-
-
-
-
 @Auth_blueprint.route('/users/<int:user_id>', methods = ["GET"])
 @required.token_required
 def get_user(current_user,user_id):
@@ -46,22 +41,6 @@ def get_user(current_user,user_id):
     else:
         return jsonify({'user':user_controller.get_user_by_id(user_id)})
         
-
-
-
-@Auth_blueprint.route('/users/<int:user_id>', methods = ["PUT"])
-@required.token_required
-def update_user(current_user,user_id):
-    """Endpoints for updating  a user"""
-    
-    if current_user.get('isAdmin') is False:
-        return jsonify({
-            'message':'You  cannot perform this function'
-        }),401
-    else:
-        return jsonify({
-        'user':user_controller.update_user(current_user) 
-        })
     
 
 

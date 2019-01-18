@@ -117,28 +117,4 @@ class UserController:
     
     
     
-    def update_user(self,user_id):
-        """This method updates  a user by its id."""
-
-        user_model =UserModel()
-        user = user_model.get_user_by_id(user_id)
-        try:
-            user = user_model.get_user_by_id(user_id)
-            if user:
-                user = user_model.users.update(user)
-                return ({
-                    "messsage":"user has been updated succesfully",
-                    "status":200
-                })
-
-            return ({
-                "Error":"user with that user_id doesnot exist",
-                "status":200
-            })
-
-        except:
-            return ({
-                'error': 'user has not been updated',
-                'status':401
-            })
-            
+    

@@ -33,6 +33,8 @@ class TestRedFlag(TestBase):
 
         token = json.loads(response.data.decode()),
         token = token.get('Token')[0]
+
+
        
         
 
