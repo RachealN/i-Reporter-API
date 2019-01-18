@@ -32,7 +32,7 @@ class TestRedFlag(TestBase):
         data=json.dumps(self.credential))
 
         token = json.loads(response.data.decode()),
-        token = token.get('Token')[0]
+        token = token.get['Token'][0]
 
 
        

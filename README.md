@@ -57,7 +57,7 @@ https://github.com/RachealN/i-Reporter-API/tree/develop
 ○	Delete a red-flag record
 
 
-#API Endpoints
+# API Endpoints
 
 | Methods | Endpoints           |Functionality|
 ----------|---------------------|-------------------------------|

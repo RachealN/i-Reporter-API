@@ -65,9 +65,6 @@ class RedflagController:
     def get_redflags(self):
         """function to get all redflags"""
         
-    
-
-
         if len(redflagslist.redflags_list) < 1:
             return jsonify({
                 "status":200,
